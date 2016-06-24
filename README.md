@@ -57,8 +57,6 @@ For example, in the case of `SMFPageRouter`, an existing router library called `
 
 `SMFPageRouter` basically includes `ruta` and extends it with code to make it work with Smartface runtime.
 
-Not: Burayı tam hatırlamıyorum ama galiba ruta.js'ten ben otomatik url handling yaptığı kısımları çıkardım.
-
 ## The future
 
 - Repeatbox helper library
