@@ -1,4 +1,4 @@
-SMFAjax.postJSONViaJSON(MyApp.BASE_URL + 'postJSONViaJSON', {command: "postJSONViaJSON"}, function(data) {
+/* globals SMFAjax, MyApp*/
+SMFAjax.postJSONViaJSON(MyApp.BASE_URL, {command: "postJSONViaJSON"}, function(data) {
 	alert(JSON.stringify(data));
-	chai.assert.deepEqual(data, { command: "postJSONViaJSON", server: "postJSONViaJSON" });
 });

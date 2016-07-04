@@ -1,3 +1,4 @@
+/* globals formUrlEncoded */
 'use strict';
 if (typeof Object.assign !== 'function') {
 	include('vendor/Smartface/polyfills.js');
@@ -24,7 +25,7 @@ SMFAjax.defaultSetup = Object.freeze({
 	dataFilter: function(data, dataType) {
 		return data;
 	},
-	dataType: 'text',//xml, script, html
+	dataType: 'text', //xml, script, html
 	//"jsonp": Loads in a JSON block using JSONP. Adds an extra "?callback=?" to the end of your URL to specify the callback. Disables caching by appending a query string parameter, "_=[TIMESTAMP]", to the URL unless the cache option is set to true.
 	error: function(jqXHR, textStatus, errorThrown) {
 		//textStatus: null, "timeout", "error", "abort", and "parsererror"
@@ -68,24 +69,30 @@ SMFAjax.ajax = function(url, settings) {
 		URL: settings.url,
 		requestHeaders: SMFAjax.createHeaders(settings),
 		httpMethod: settings.method.toUpperCase(),
-		onServerError: settings.error,
-		onSizeOverflow: settings.error,
+		onerror: settings.error,
 		onSyndicationSuccess: function(e) {
 			var data = this.response || this.responseText;
+			if (data instanceof Blob) {
+				data = atob(data.toBase64String());
+			}
 			if (settings.processData) {
 				if (settings.dataType === 'json') {
 					try {
 						data = JSON.parse(data);
-					} catch (e) {
-						return this.onServerError();
 					}
-				} else if (settings.dataType === 'xml') {
-					try{
+					catch (e) {
+						return settings.error();
+					}
+				}
+				else if (settings.dataType === 'xml') {
+					try {
 						data = (new DOMParser()).parseFromString(data);
-					} catch(e) {
-						return this.onServerError();
 					}
-				} else {}
+					catch (e) {
+						return settings.error();
+					}
+				}
+				else {}
 			}
 			settings.success.call(this, data);
 		},
@@ -96,37 +103,67 @@ SMFAjax.ajax = function(url, settings) {
 	if (settings.method === 'POST') {
 		if (isContentJson) {
 			params.requestBody = JSON.stringify(settings.data);
-		} else {
+		}
+		else {
 			params.requestBody = formUrlEncoded(settings.data);
 		}
-	} else if (settings.method === 'GET') {
+	}
+	else if (settings.method === 'GET') {
 		params.URL += '?' + formUrlEncoded(settings.data);
 	}
-	var client = new SMF.Net.WebClient(params);
-	client.run();
+
+
+	var xhr = new XMLHttpRequest(),
+		h, hName, hValue;
+	for (var i in params.requestHeaders) {
+		h = params.requestHeaders[i].split(":");
+		hName = h[0].trim();
+		hValue = h[1].trim();
+		xhr.setRequestHeader(hName, hValue);
+	}
+	xhr.onload = params.onSyndicationSuccess;
+	xhr.onerror = params.onerror;
+	xhr.ignoreSSLErrors = !!params.ignoreSSLErrors;
+	xhr.open(params.httpMethod, params.URL, true);
+	xhr.send(params.requestBody);
 };
 
 SMFAjax.createHeaders = function(settings) {
-	var contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
+	var contentType = 'application/x-www-form-urlencoded; charset=UTF-8',
+		accept = contentType;
 	if (settings.contentType === 'json') {
-		contentType = 'application/json';
+		contentType = 'application/json; charset=UTF-8';
+	}
+	if (settings.dataType === 'json') {
+		accept = 'application/json; charset=UTF-8';
 	}
 
 	var keys = Object.keys(settings.headers);
 	var contentTypeMatched = -1;
+	var acceptMatched = -1;
 	var contentTypeRgx = /content\-type/i;
+	var acceptRgx = /accept/i;
 	var index = 0;
-	var headers = keys.map(function(key){
-		var matched = settings.headers[key].match(contentTypeRgx);
-		if (matched) {
+	var headers = keys.map(function(key) {
+		contentTypeRgx.lastIndex = 0;
+		var matchedCT = settings.headers[key].match(contentTypeRgx);
+		if (matchedCT) {
 			contentTypeMatched = index;
+		}
+		var matchedAccept = settings.headers[key].match(acceptRgx);
+		if (matchedAccept) {
+			acceptMatched = index;
 		}
 		index++;
 		return key + ': ' + settings.headers[key];
 	});
 	//Only add Content-Type if it does not exist
-	if (contentTypeMatched === -1) {
+	var nonBodyMethods = ["GET", "HEAD"];
+	if (contentTypeMatched === -1 && nonBodyMethods.indexOf(settings.method) === -1 ) {
 		headers.push('Content-Type: ' + contentType);
+	}
+	if (acceptMatched === -1 && settings.dataType) {
+		headers.push('Accept: ' + accept);
 	}
 	return headers;
 };
