@@ -34,7 +34,7 @@ Before adding or extending a library, first step requires checking which feature
 
 Examples for are placed under relative folder of `examples` folder. In order to run the examples place the files and use some of the libraries provided as instructed.
 
-### SMFAjax
+## SMFAjax
 `include("vendor/Smartface/SMFAjax.js");` is to use the library. This library internaly uses `polyfills` and `formUrlEncoded` libraries to be placed under same folder `vendor/Smartface/`.
 You can either review code blocks, copy paste them or `include` them from the places where you are putting them. In order to use examples you can use the following web server with the code given below: 
 ```javascript
@@ -44,7 +44,7 @@ var MyApp = {
 ```
 
 
-### XHRProfiler
+## XHRProfiler
 While developing application in some cases it will be helpful to observe the network transfer informatin sent and recieved from XHR.
 `include("vendor/Smartface/XHRProfiler.js");` is to use the library. After adding this line, it is possible to change profiling from code.
 ```javascript
@@ -59,6 +59,10 @@ from `XMLHttpRequest.profiling.` other properties shows what will be included wi
 - url
 - digestLog - Combines request & response in single message, after response is recieved
 
+## permissions
+Since Android 6.0 (Marshmallow) some intensive permissions are asked to user regardles they are being stated in manifest file. Smartface has implemented same usage of Native Android Permission management. However in terms of JavaScript using the same structure is not that effective. With using this library:
+- `checkPermission` function checks & requests permissions if required with a callback. It is possible to state a rationale (reason) why those permissions are required
+- `applyPermission` function is same as `Function.prototype.apply` with `checkPermission` functionality
 
 ## The future
 
