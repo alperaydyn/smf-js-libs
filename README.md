@@ -64,6 +64,9 @@ Since Android 6.0 (Marshmallow) some intensive permissions are asked to user reg
 - `checkPermission` function checks & requests permissions if required with a callback. It is possible to state a rationale (reason) why those permissions are required
 - `applyPermission` function is same as `Function.prototype.apply` with `checkPermission` functionality
 
+## Oracle
+Oracle libray readme file is located under `libs/Oracle/README.md`
+
 ## The future
 
 - Repeatbox helper library

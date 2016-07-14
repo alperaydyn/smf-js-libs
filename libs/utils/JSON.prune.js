@@ -47,8 +47,7 @@
 
 	Object.defineProperty(Date.prototype, "toPrunedJSON", {value:Date.prototype.toJSON});
 
-	var	cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-		escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+	var	escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
 		meta = {	// table of character substitutions
 			'\b': '\\b',
 			'\t': '\\t',
@@ -79,7 +78,7 @@
 			arrayMaxLength = options.arrayMaxLength;
 			iterator = options.iterator || forEachEnumerableOwnProperty;
 			if (options.allProperties) iterator = forEachProperty;
-			else if (options.inheritedProperties) iterator = forEachEnumerableProperty
+			else if (options.inheritedProperties) iterator = forEachEnumerableProperty;
 			if ("prunedString" in options) {
 				prunedString = options.prunedString;
 			}
@@ -93,7 +92,7 @@
 		depthDecr = depthDecr || DEFAULT_MAX_DEPTH;
 		arrayMaxLength = arrayMaxLength || DEFAULT_ARRAY_MAX_LENGTH;
 		function str(key, holder, depthDecr) {
-			var i, k, v, length, partial, value = holder[key];
+			var i, v, length, partial, value = holder[key];
 			if (value && typeof value === 'object' && typeof value.toPrunedJSON === 'function') {
 				value = value.toPrunedJSON(key);
 			}

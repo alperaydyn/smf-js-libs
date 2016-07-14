@@ -1,3 +1,4 @@
+/* globals mcs */
 //"use strict";
 
 (function() {
@@ -180,9 +181,6 @@ var _deviceId = mcs._Utils.uuid();
  * @abstract
  */
 var Platform = function() {
-  // SMF edited
-  var model = manufacturer = osName = osVersion = osBuild = carrier = "Unknown";
-
   /**
    * Performs an HTTP request.
    * @param request {Object} The format of the request parameter is identical to the settings parameter in
@@ -287,7 +285,7 @@ var Platform = function() {
    */
   this.validateCachedCredentials = function(username, password) {
     return false;
-  }
+  };
 };
 
 (function() {
@@ -373,13 +371,13 @@ var BrowserPlatform = function() {
         }
         else {
           if (request.error != null) {
-            request.error(xhr.status, xhr.response)
+            request.error(xhr.status, xhr.response);
           }
         }
       }
     };
     xhr.send(request.body);
-  }
+  };
 };
 
 (function() {
@@ -556,7 +554,7 @@ function Analytics(backend) {
     var analytics = this;
     var headers = analytics.backend.getHttpHeaders();
     headers["Content-Type"] = "application/json";
-    //smf remove
+    //smf removed
     //headers["Content-Length"] = eventsString.length;
 
     mcs.MobileBackendManager.platform.invokeService({
@@ -1255,7 +1253,7 @@ function OAuthAuthorization(config, backend, appKey) {
     else {
       mcs._Logger.log(mcs.logLevelError, "Token has expired.");
       if (errorCallback != null) {
-        errorCallback('401', 'Token has expired')
+        errorCallback('401', 'Token has expired');
       }
     }
   };
@@ -1494,7 +1492,7 @@ function User(user) {
     email = Email;
   };
 
-  <!-- TODO: More protected way to edit password of User Object-->
+  //<!-- TODO: More protected way to edit password of User Object-->
   /**
    * Sets password for current user.
    *
@@ -1550,7 +1548,7 @@ function Diagnostics(backend) {
    */
   this.getSessionId = function() {
     return this._sessionId;
-  }
+  };
 }
 
 (function() {
@@ -1631,7 +1629,7 @@ function CustomCode(backend) {
         }
       }
     });
-  }
+  };
 }
 
 
@@ -1700,7 +1698,7 @@ function MobileBackend(name, config) {
   this.getOAuthTokenUrl = function() {
     var tokenUri = mcs._Utils.validateConfiguration(this._config.authorization.oAuth.tokenEndpoint);
     if (!strEndsWith(tokenUri, "/")) {
-      tokenUri += "/"
+      tokenUri += "/";
     }
     return tokenUri;
   };
@@ -2106,7 +2104,7 @@ function StorageObject(storageCollection, json) {
    * @return Current Storage Object.
    */
   this.getStorage = function() {
-    return this.getstorageCollection()._storage
+    return this.getstorageCollection()._storage;
   };
 
   /**
@@ -2198,10 +2196,10 @@ function StorageObject(storageCollection, json) {
         responseType: objectType,
 
         success: function(response, data) {
-          invokeServiceSuccess(response, data, storageObject, successCallback)
+          invokeServiceSuccess(response, data, storageObject, successCallback);
         },
         error: function(statusCode, data) {
-          invokeServiceError(statusCode, data, errorCallback)
+          invokeServiceError(statusCode, data, errorCallback);
         }
       });
     }
@@ -2469,7 +2467,7 @@ function StorageCollection(data, userId, storage) {
     headers["Oracle-Mobile-Name"] = encodeURI(storageObject.getDisplayName());
     headers["Accept-Encoding"] = "gzip";
     headers["Content-Type"] = storageObject.contentType;
-    //smf remove
+    //smf removed
     //headers["Content-Length"] = storageObject.contentLength;
 
 
@@ -2638,10 +2636,6 @@ function Storage(backend) {
 
       success: function(response, data) {
         if (successCallback != null) {
-          // SMF TODO
-          // console.log('success data: ' + JSON.prune(data, 20).replace(/"/g, "`"));
-          // console.log('success validateConfiguration: ' + JSON.prune(mcs._Utils.validateConfiguration(userId), 20).replace(/"/g, "`"));
-          // console.log('success storage: ' + JSON.prune(storage, 20).replace(/"/g, "`"));
           successCallback(new mcs._StorageCollection(data, mcs._Utils.validateConfiguration(userId), storage));
         }
       },

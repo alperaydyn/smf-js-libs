@@ -1,4 +1,4 @@
-/* globals */
+/* globals Deferred*/
 /*
 deferred-js is a light (less than 1 kb gzipped) standalone implementation of promise/deferred that aims to be fully compatible with $.Deferred found in jQuery 1.5+.
 https://github.com/warpdesign/deferred-js
@@ -248,7 +248,7 @@ https://github.com/warpdesign/deferred-js
 			notify: function() {
 				return this.notifyWith(this, arguments);
 			}
-		}
+		};
 
 		var obj = promise.promise(deferred);
 
@@ -296,7 +296,7 @@ https://github.com/warpdesign/deferred-js
 				return df.promise();
 			})(arguments);
 		}
-	}
+	};
 
 	global.Deferred = D;
 })();

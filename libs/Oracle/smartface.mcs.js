@@ -1,9 +1,9 @@
 /* globals mcs mcs_config Analytics AnalyticsEvent Deferred*/
 // Based on MCS Jquery plugin at http://www.ateam-oracle.com/hybrid-mobile-apps-using-the-mobile-cloud-service-javascript-sdk-with-oracle-jet/
 
-include("libs/vendor/Oracle/mcs.js");
-include("libs/vendor/Oracle/oracle_mobile_cloud_config.js");
-include("libs/vendor/utils/deferred.js");
+include("libs/Oracle/mcs.js");
+include("libs/Oracle/oracle_mobile_cloud_config.js");
+include("libs/utils/deferred.js");
 
 // namespace pattern
 (function() {

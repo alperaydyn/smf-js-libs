@@ -43,14 +43,14 @@ In this version we've implemented these functions in MCS;
 ## How to use?
 
 There 3 main .js files in Oracle MCS library.
-* `libs/vendor/Oracle/mcs.js` mcs main library developed by Oracle
-* `libs/vendor/Oracle/oracle_mobile_cloud_config` mcs config file for your API keys and tokens provided by Oracle
-* `libs/vendor/Oracle/smartface.mcs.js` Smartface Oracle backend library maintained by Smartface
+* `libs/Oracle/mcs.js` mcs main library developed by Oracle
+* `libs/Oracle/oracle_mobile_cloud_config` mcs config file for your API keys and tokens provided by Oracle
+* `libs/Oracle/smartface.mcs.js` Smartface Oracle backend library maintained by Smartface
 
-First; you have to add your keys and tokens in config file. After configuration is done, you can simply include your `libs/vendor/Oracle/smartface.mcs.js` library to start using Oracle MCS. It will automatically load other necessary MCS lib modules during runtime.
+First; you have to add your keys and tokens in config file. After configuration is done, you can simply include your `libs/Oracle/smartface.mcs.js` library to start using Oracle MCS. It will automatically load other necessary MCS lib modules during runtime.
 
 ```javascript
-include("libs/vendor/Oracle/smartface.mcs.js");
+include("libs/Oracle/smartface.mcs.js");
 
 function Application_OnStart(e) {
   // add your on start codes here include("pages/index.js");
