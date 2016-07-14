@@ -7,7 +7,7 @@ In general we're putting main vendors' libraries under their seperate folders.
 
 Oracle MCS lib is created by Oracle itself. We've made a few changes on it to be sure it will work in Smartface apps seamlessly.
 
-## What is Oracle MCS
+## What is Oracle MCS?
 https://blogs.oracle.com/mobile/entry/introducing_oracle_mobile_cloud_service
 
 Oracle has released the much anticipated Mobile Cloud Service (or MCS for short). Unlike other cloud offerings, MCS is focused not only on providing enterprise quality Mobile Backend as a Service (MBaaS), but also providing easy to use tools for business professionals to analyze and mine data about the usage of the MBaaS.
@@ -35,6 +35,8 @@ There 3 main .js files in Oracle MCS library.
 First; you have to add your keys and tokens in config file. After configuration is done, you can simply include your `libs/vendor/Oracle/smartface.mcs.js` library to start using Oracle MCS. It will automatically load other necessary MCS lib modules during runtime.
 
 ```javascript
+include("libs/vendor/Oracle/smartface.mcs.js");
+
 function Application_OnStart(e) {
   // add your on start codes here include("pages/index.js");
 
@@ -68,10 +70,6 @@ In this version we've implemented these functions in MCS;
 * `Storage`
  * `getCollection` to get a named storage collection
  * `postObject` to upload a file to your storage
-
-## How to use?
-
-You can just include any file by adding simply `include("libs/vendor/utils/lib.name.js")`
 
 ## More
 You can get detailed information from following web pages:
