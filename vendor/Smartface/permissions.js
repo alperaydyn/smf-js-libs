@@ -117,11 +117,16 @@
     };
 
     if (Device.deviceOS === "Android") {
-        /* SMF.Net.sendSMS.permissions = ["SEND_SMS"];
-         SMF.Multimedia.startCamera.permissions = ["CAMERA"];
-         Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
-         Device.Contacts.addContact.permissions = ["WRITE_CONTACTS"];
-         Device.Contacts.pickContact.permissions = ["READ_CONTACTS"];*/
+        SMF.Multimedia.startCamera.permissions = ["CAMERA"];
+        Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
+        Device.Media.getGalleryItems.permissions = ["READ_EXTERNAL_STORAGE"];
+        Device.Media.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"];
+        SMF.Net.sendSMS.permissions = ["SEND_SMS"];
+        Device.Contacts.addContact.permissions = ["WRITE_CONTACTS"];
+        Device.Contacts.pickContact.permissions = ["READ_CONTACTS"];
+        Device.Contacts.getAll.permissions = ["READ_CONTACTS"];
+        Device.shar.permissions = ["WRITE_EXTERNAL_STORAGE"];
+        Device.setGPSStatus.permissions = ["ACCESS_FINE_LOCATION"];
     }
 
     function applyPermissionToFunction(fn, thisObject, options) {
@@ -132,8 +137,57 @@
         global.applyPermission(fn, thisObject, options, reason, done);
     }
 
-    //Example
+
     global.sendSMS = function sendSMS(options) {
+        if (options.sendInBackground.sendInBackground) {
+            return SMF.Net.sendSMS(options);
+        }
         applyPermissionToFunction(SMF.Net.sendSMS, SMF.Net, options);
+    };
+
+    global.startCamera = function startCamera(options) {
+        applyPermissionToFunction(SMF.Multimedia.startCamera, SMF.Multimedia, options);
+    };
+
+    global.pickFromGallery = function pickFromGallery(options) {
+        applyPermissionToFunction(Device.Media.pickFromGallery, Device.Media, options);
+    };
+
+    global.getGalleryItems = function getGalleryItems(options) {
+        applyPermissionToFunction(Device.Media.getGalleryItems, Device.Media, options);
+    };
+
+    global.saveToGallery = function saveToGallery(options) {
+        applyPermissionToFunction(Device.Media.saveToGallery, Device.Media, options);
+    };
+
+    global.addContact = function addContact(options) {
+        applyPermissionToFunction(Device.Contacts.addContact, Device.Contacts, options);
+    };
+
+    global.pickContact = function pickContact(options) {
+        applyPermissionToFunction(Device.Contacts.pickContact, Device.Contacts, options);
+    };
+
+    global.getAllContacts = function getAllContacts(options) {
+        applyPermissionToFunction(Device.Contacts.getAll, Device.Contacts, options);
+    };
+
+    global.setGPSStatus = function setGPSStatus(options) {
+        applyPermissionToFunction(Device.setGPSStatus, Device, options);
+    };
+
+    global.onSMSReceived = function onSMSReceived(event, options) {
+        var reason = options.reason,
+            done = options.done;
+        reason && delete options.reason;
+        done && delete options.done;
+        var permissions = ["RECEIVE_SMS", "READ_SMS"];
+        global.checkPermission(permissions, reason, function(err) {
+            if (!err)
+                Application.onSMSReceived = event;
+            done(err);
+        });
+
     };
 })();
