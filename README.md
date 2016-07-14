@@ -6,22 +6,22 @@ Smartface framework does not contain the DOM layer unlike browsers. For this rea
 
 ## How to use?
 
-As a convention, the libraries are added under the `scripts/vendor` folder.
+As a convention, the libraries are added under the `scripts/libs` folder.
 
 
 ### `include` function
 
-When including files, the required syntax is to call the `include` function of the Smartface framework. This function requires that all files are given relative to the `scripts` folder. 
-In this repository, files that need to be placed under the `vendor` folder are located under the `vendor` folder.
+When including files, the required syntax is to call the `include` function of the Smartface framework. This function requires that all files are given relative to the `scripts` folder.
+In this repository, files that need to be placed under the `libs` folder are located under the `libs` folder.
 
 
-If one were to look at `SMFAjax.js` file, it conditionally includes certain files with the assumptions stated above. 
+If one were to look at `SMFAjax.js` file, it conditionally includes certain files with the assumptions stated above.
 
 		if (typeof Object.assign !== 'function') {
-			include('vendor/Smartface/polyfills.js');
+			include('libs/Smartface/polyfills.js');
 		}
 		if (typeof formUrlEncoded !== 'function') {
-			include('vendor/Smartface/formUrlEncoded.js');
+			include('libs/Smartface/formUrlEncoded.js');
 		}
 
 When developing your own libraries, you can use this pattern for your conditional imports.
@@ -35,18 +35,18 @@ Before adding or extending a library, first step requires checking which feature
 Examples for are placed under relative folder of `examples` folder. In order to run the examples place the files and use some of the libraries provided as instructed.
 
 ## SMFAjax
-`include("vendor/Smartface/SMFAjax.js");` is to use the library. This library internaly uses `polyfills` and `formUrlEncoded` libraries to be placed under same folder `vendor/Smartface/`.
-You can either review code blocks, copy paste them or `include` them from the places where you are putting them. In order to use examples you can use the following web server with the code given below: 
+`include("libs/Smartface/SMFAjax.js");` is to use the library. This library internaly uses `polyfills` and `formUrlEncoded` libraries to be placed under same folder `libs/Smartface/`.
+You can either review code blocks, copy paste them or `include` them from the places where you are putting them. In order to use examples you can use the following web server with the code given below:
 ```javascript
 var MyApp = {
-	BASE_URL : "http://jslibs.azurewebsites.net/examples"	
+	BASE_URL : "http://jslibs.azurewebsites.net/examples"
 };
 ```
 
 
 ## XHRProfiler
 While developing application in some cases it will be helpful to observe the network transfer informatin sent and recieved from XHR.
-`include("vendor/Smartface/XHRProfiler.js");` is to use the library. After adding this line, it is possible to change profiling from code.
+`include("libs/Smartface/XHRProfiler.js");` is to use the library. After adding this line, it is possible to change profiling from code.
 ```javascript
 XMLHttpRequest.profiling.enabled = true;
 ```
@@ -72,8 +72,7 @@ Oracle libray readme file is located under `libs/Oracle/README.md`
 - Repeatbox helper library
 - View library
 - `fetch` polyfill
-- Could use code transpilation tools like `Babel` to use `require` like in 
+- Could use code transpilation tools like `Babel` to use `require` like in
 `Node.js`. Transpilation could convert `require` call into `include` in the
 background.
 - XHRProfiler with console.log
-
