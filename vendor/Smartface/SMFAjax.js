@@ -100,7 +100,7 @@ SMFAjax.ajax = function(url, settings) {
 	};
 	var isContentJson = settings.contentType.match(/json/i);
 
-	if (settings.method === 'POST' ||settings.method === 'PUT') {
+	if (settings.method === 'POST' || settings.method === 'PUT') {
 		if (isContentJson) {
 			params.requestBody = JSON.stringify(settings.data);
 		}
