@@ -100,7 +100,7 @@ SMFAjax.ajax = function(url, settings) {
 	};
 	var isContentJson = settings.contentType.match(/json/i);
 
-	if (settings.method === 'POST') {
+	if (settings.method === 'POST' ||settings.method === 'PUT') {
 		if (isContentJson) {
 			params.requestBody = JSON.stringify(settings.data);
 		}
@@ -194,6 +194,24 @@ SMFAjax.postJSONViaJSON = function(url, data, success) {
 
 SMFAjax.postViaJSON = function(url, data, success) {
 	SMFAjax.post(url, data, success, null, 'json');
+};
+
+SMFAjax.put = function(url, data, success, dataType, contentType) {
+	var obj = SMFAjax.processShorthandArguments(url, data, success, dataType, contentType);
+	obj.method = 'PUT';
+	SMFAjax.ajax(obj);
+};
+
+SMFAjax.putJSON = function(url, data, success) {
+	SMFAjax.put(url, data, success, 'json');
+};
+
+SMFAjax.putJSONViaJSON = function(url, data, success) {
+	SMFAjax.put(url, data, success, 'json', 'json');
+};
+
+SMFAjax.putViaJSON = function(url, data, success) {
+	SMFAjax.put(url, data, success, null, 'json');
 };
 
 SMFAjax.processShorthandArguments = function(url, data, success, dataType, contentType) {
