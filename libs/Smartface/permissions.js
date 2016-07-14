@@ -116,25 +116,13 @@
         }
     };
 
-    if (Device.deviceOS === "Android") {
-        SMF.Multimedia.startCamera.permissions = ["CAMERA"];
-        Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
-        Device.Media.getGalleryItems.permissions = ["READ_EXTERNAL_STORAGE"];
-        Device.Media.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"];
-        SMF.Net.sendSMS.permissions = ["SEND_SMS"];
-        Device.Contacts.addContact.permissions = ["WRITE_CONTACTS"];
-        Device.Contacts.pickContact.permissions = ["READ_CONTACTS"];
-        Device.Contacts.getAll.permissions = ["READ_CONTACTS"];
-        Device.shar.permissions = ["WRITE_EXTERNAL_STORAGE"];
-        Device.setGPSStatus.permissions = ["ACCESS_FINE_LOCATION"];
-    }
 
     function applyPermissionToFunction(fn, thisObject, options) {
         var reason = options.reason,
             done = options.done;
         reason && delete options.reason;
         done && delete options.done;
-        global.applyPermission(fn, thisObject, options, reason, done);
+        global.applyPermission(fn, thisObject, [options], reason, done);
     }
 
 
@@ -165,8 +153,8 @@
         applyPermissionToFunction(Device.Contacts.addContact, Device.Contacts, options);
     };
 
-    global.pickContact = function pickContact(options) {
-        applyPermissionToFunction(Device.Contacts.pickContact, Device.Contacts, options);
+    global.pick = function pick(options) {
+        applyPermissionToFunction(Device.Contacts.pick, Device.Contacts, options);
     };
 
     global.getAllContacts = function getAllContacts(options) {
@@ -190,4 +178,17 @@
         });
 
     };
+    if (Device.deviceOS === "Android") {
+        SMF.Multimedia.startCamera.permissions = ["CAMERA"];
+        Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
+        Device.Media.getGalleryItems.permissions = ["READ_EXTERNAL_STORAGE"];
+        Device.Media.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"];
+        SMF.Net.sendSMS.permissions = ["SEND_SMS"];
+        Device.Contacts.addContact.permissions = ["WRITE_CONTACTS"];
+        Device.Contacts.getAll.permissions = ["READ_CONTACTS"];
+        Device.share.permissions = ["WRITE_EXTERNAL_STORAGE"];
+        Device.setGPSStatus.permissions = ["ACCESS_FINE_LOCATION"];
+        Device.Contacts.pick.permissions = ["READ_CONTACTS"];
+    }
+
 })();
