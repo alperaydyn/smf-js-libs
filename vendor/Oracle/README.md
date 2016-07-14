@@ -8,9 +8,10 @@ In general we're putting main vendors' libraries under their seperate folders.
 Oracle MCS lib is created by Oracle itself. We've made a few changes on it to be sure it will work in Smartface apps seamlessly.
 
 ## What is Oracle MCS?
-https://blogs.oracle.com/mobile/entry/introducing_oracle_mobile_cloud_service
 
 Oracle has released the much anticipated Mobile Cloud Service (or MCS for short). Unlike other cloud offerings, MCS is focused not only on providing enterprise quality Mobile Backend as a Service (MBaaS), but also providing easy to use tools for business professionals to analyze and mine data about the usage of the MBaaS.
+
+You can read more at https://blogs.oracle.com/mobile/entry/introducing_oracle_mobile_cloud_service
 
 ## What APIS does MCS Provide?
 
