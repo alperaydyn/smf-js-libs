@@ -25,6 +25,20 @@ To help simplify mobile app development, Mobile Cloud Service provides these bui
 
 You can call these APIs directly from your apps via straight REST calls, or with the help of Mobile Cloud Service's SDKs for the iOS and Android platforms. MCS also provides a robust API Designer tool, so you can create your own custom APIs to go after the data you need.
 
+## Which parts implemented in MCS JS libs?
+
+In this version we've implemented these functions in MCS;
+
+* `Authentication`
+ * `authAnonymous` Anonymous authentication (for Analytics events)
+ * `authenticate` User and password based authentication against Oracle MCS Mobile User Management. (A user has to be authenticated before using permission based applications like Storage)
+* `Analytics`
+ * `logAnalytics` to Log an event
+ * `flushAnalytics` to send your Analytics event queue to Oracle servers. All events will be logged locally until they are flushed.
+* `Storage`
+ * `getCollection` to get a named storage collection
+ * `postObject` to upload a file to your storage
+
 ## How to use?
 
 There 3 main .js files in Oracle MCS library.
@@ -55,21 +69,6 @@ function Application_OnStart(e) {
 	smfOracle.flushAnalytics();
 }
 ```
-
-
-## Which parts implemented in MCS JS libs?
-
-In this version we've implemented these functions in MCS;
-
-* `Authentication`
- * `authAnonymous` Anonymous authentication (for Analytics events)
- * `authenticate` User and password based authentication against Oracle MCS Mobile User Management. (A user has to be authenticated before using permission based applications like Storage)
-* `Analytics`
- * `logAnalytics` to Log an event
- * `flushAnalytics` to send your Analytics event queue to Oracle servers. All events will be logged locally until they are flushed.
-* `Storage`
- * `getCollection` to get a named storage collection
- * `postObject` to upload a file to your storage
 
 ## More
 You can get detailed information from following web pages:
