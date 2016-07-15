@@ -347,8 +347,6 @@ var BrowserPlatform = function() {
 
   this.invokeService = function(request) {
     var xhr = new XMLHttpRequest();
-    // TODO: Some OSes including iOS 9 doesn't like Oracle's certificates, as a workaround we're adding ignoreSSLErrors. This may cause security breaches, don't use in production env.
-    xhr.ignoreSSLErrors = true;
     xhr.open(request.method, request.url);
 
     for (var key in request.headers) {
