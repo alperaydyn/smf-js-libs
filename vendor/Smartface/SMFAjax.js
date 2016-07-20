@@ -1,10 +1,10 @@
 /* globals formUrlEncoded */
 'use strict';
 if (typeof Object.assign !== 'function') {
-	include('libs/vendor/Smartface/polyfills.js');
+	include('libs/Smartface/polyfills.js');
 }
 if (typeof formUrlEncoded !== 'function') {
-	include('libs/vendor/Smartface/formUrlEncoded.js');
+	include('libs/Smartface/formUrlEncoded.js');
 }
 var SMFAjax = {};
 
