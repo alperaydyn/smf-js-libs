@@ -2,7 +2,7 @@
 
 ## What is it?
 
-Smartface supports most of the JS libraries out there which doesn't use DOM by design.
+Smartface supports most of the JS libraries out there which doesn't require DOM by design.
 In general we're putting main vendors' libraries under their seperate folders.
 
 Oracle MCS lib is created by Oracle itself. We've made a few changes on it to be sure it will work in Smartface apps seamlessly.
