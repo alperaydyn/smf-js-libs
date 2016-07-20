@@ -109,7 +109,8 @@ SMFAjax.ajax = function(url, settings) {
 		}
 	}
 	else if (settings.method === 'GET') {
-		params.URL += '?' + formUrlEncoded(settings.data);
+		var queryString = formUrlEncoded(settings.data);
+		if(queryString)params.URL += '?' + queryString;
 	}
 
 
