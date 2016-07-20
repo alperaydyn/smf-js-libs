@@ -1,10 +1,10 @@
 /* globals formUrlEncoded */
 'use strict';
 if (typeof Object.assign !== 'function') {
-	include('vendor/Smartface/polyfills.js');
+	include('libs/vendor/Smartface/polyfills.js');
 }
 if (typeof formUrlEncoded !== 'function') {
-	include('vendor/Smartface/formUrlEncoded.js');
+	include('libs/vendor/Smartface/formUrlEncoded.js');
 }
 var SMFAjax = {};
 
@@ -100,7 +100,7 @@ SMFAjax.ajax = function(url, settings) {
 	};
 	var isContentJson = settings.contentType.match(/json/i);
 
-	if (settings.method === 'POST' || settings.method === 'PUT') {
+	if (settings.method === 'POST' ||settings.method === 'PUT') {
 		if (isContentJson) {
 			params.requestBody = JSON.stringify(settings.data);
 		}
@@ -109,7 +109,8 @@ SMFAjax.ajax = function(url, settings) {
 		}
 	}
 	else if (settings.method === 'GET') {
-		params.URL += '?' + formUrlEncoded(settings.data);
+		var queryString = formUrlEncoded(settings.data);
+		if(queryString)params.URL += '?' + queryString;
 	}
 
 
