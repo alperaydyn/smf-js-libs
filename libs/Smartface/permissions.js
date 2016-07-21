@@ -104,7 +104,7 @@
             reason = undefined;
         }
         if (!fn.permissions) {
-            fn.apply(thisObject, args);
+            fn.apply(thisObject, args)
             done && done(null);
         }
         else {
@@ -153,7 +153,7 @@
         applyPermissionToFunction(Device.Contacts.addContact, Device.Contacts, options);
     };
 
-    global.pick = function pick(options) {
+    global.pickContact = function pickContact(options) {
         applyPermissionToFunction(Device.Contacts.pick, Device.Contacts, options);
     };
 
@@ -178,6 +178,7 @@
         });
 
     };
+<<<<<<< HEAD:libs/Smartface/permissions.js
     if (Device.deviceOS === "Android") {
         SMF.Multimedia.startCamera.permissions = ["CAMERA"];
         Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
@@ -190,5 +191,22 @@
         Device.setGPSStatus.permissions = ["ACCESS_FINE_LOCATION"];
         Device.Contacts.pick.permissions = ["READ_CONTACTS"];
     }
+=======
+        var a = [];
+        if (Device.deviceOS === "Android") {
+            a.push(SMF.Multimedia.startCamera.permissions = ["CAMERA"]);
+            a.push(Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"]);
+            a.push(Device.Media.getGalleryItems.permissions = ["READ_EXTERNAL_STORAGE"]);
+            a.push(Device.Media.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"]);
+            a.push(SMF.Net.sendSMS.permissions = ["SEND_SMS"]);
+            a.push(Device.Contacts.addContact.permissions = ["WRITE_CONTACTS"]);
+
+            a.push(Device.Contacts.getAll.permissions = ["READ_CONTACTS"]);
+            a.push(Device.share.permissions = ["WRITE_EXTERNAL_STORAGE"]);
+            a.push(Device.setGPSStatus.permissions = ["ACCESS_FINE_LOCATION"]);
+
+            a.push(Device.Contacts.pick.permissions = ["READ_CONTACTS"]); //arızalı
+        }
+>>>>>>> 86d766d6374484d6d87f02735a775bdbe949bc22:vendor/Smartface/permissions.js
 
 })();
