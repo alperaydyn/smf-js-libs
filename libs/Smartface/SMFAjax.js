@@ -98,6 +98,10 @@ SMFAjax.ajax = function(url, settings) {
 		},
 		ignoreSSLErrors: true
 	};
+
+	settings = Object.assign({}, SMFAjax.defaultSetup, SMFAjax.setup, settings);
+
+
 	var isContentJson = settings.contentType.match(/json/i);
 
 	if (settings.method === 'POST' || settings.method === 'PUT') {
@@ -110,7 +114,7 @@ SMFAjax.ajax = function(url, settings) {
 	}
 	else if (settings.method === 'GET') {
 		var queryString = formUrlEncoded(settings.data);
-		if(queryString)params.URL += '?' + queryString;
+		if (queryString) params.URL += '?' + queryString;
 	}
 
 
@@ -160,7 +164,7 @@ SMFAjax.createHeaders = function(settings) {
 	});
 	//Only add Content-Type if it does not exist
 	var nonBodyMethods = ["GET", "HEAD"];
-	if (contentTypeMatched === -1 && nonBodyMethods.indexOf(settings.method) === -1 ) {
+	if (contentTypeMatched === -1 && nonBodyMethods.indexOf(settings.method) === -1) {
 		headers.push('Content-Type: ' + contentType);
 	}
 	if (acceptMatched === -1 && settings.dataType) {
@@ -229,8 +233,13 @@ SMFAjax.processShorthandArguments = function(url, data, success, dataType, conte
 		dataType = success;
 		success = data;
 		data = null;
-	}
-	if (data) {
+	} else if(typeof data === "object") {
+		obj.data = Object.assign({}, data);
+		if(obj.data.headers) {
+			obj.headers = data.headers;
+			delete obj.data.headers;
+		}
+	} else if (data) {
 		obj.data = data;
 	}
 	if (success) {
@@ -242,5 +251,6 @@ SMFAjax.processShorthandArguments = function(url, data, success, dataType, conte
 	if (contentType) {
 		obj.contentType = contentType;
 	}
+	
 	return obj;
 };
