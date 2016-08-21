@@ -64,6 +64,33 @@ Since Android 6.0 (Marshmallow) some intensive permissions are asked to user reg
 - `checkPermission` function checks & requests permissions if required with a callback. It is possible to state a rationale (reason) why those permissions are required
 - `applyPermission` function is same as `Function.prototype.apply` with `checkPermission` functionality
 
+## require
+This library mimics **nodeJS** require implementation on Smartface. This is just the require pattern library, does not provide any nodeJS internal features. In that case it will throw error for module not found.
+
+### restrictions
+- Does not support built-in internal node modules (such as _fs_, _http_)
+- Works only with files within the **scripts** folder. Does not fetch files on the web like _load_ and _include_ does
+- In order to require a js file, add **.js** extension to end of it (_will be solved in future_)
+- Requires an entry point, other than the project flow. Files included or loaded by other flow which does not link with entry point are not in require scope
+- initRequire only once
+- In order to work with **npm**, **node_modules** folder should be under **scripts** folder
+
+### usage
+You need to have a seperate js file which will be your entry point. In the exampe it is given as **mainfile.js**
+```javascript
+include("libs/require.js");
+initRequire("mainfile.js");
+```
+Within _mainfile_, it is possible to use require. Also the files required within will get **require**, **module** and **exports** variables. Other files loaded with **load** or **include** will not have access to those variables. When opting in into a _require_ scope, in order to remain in _require_ scope, other files should be loaded only with **require**.
+
+To create **node_modules** folder:
+```sh
+mkdir -p ~/workspace/scripts/node_modules
+cd ~/workspace/scripts
+```
+make sure that current directory is `~/workspace/scripts` while using **npm**
+
+
 ## Oracle
 Oracle libray readme file is located under `libs/Oracle/README.md`
 
