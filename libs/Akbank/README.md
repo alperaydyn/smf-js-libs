@@ -13,7 +13,7 @@ Akbank has opened some of it's banking services to public usage with simple apik
 
 You can find detailed info on Akbank's open banking initiative on https://apiportal.akbank.com/
 
-## What APIS does Akbank Provide?
+## What APIs does Akbank Provide?
 
 Akbank Apiportal provides these APIs:
 
@@ -32,7 +32,7 @@ You can call these APIs directly from your apps via straight REST calls, or with
 In this version we've implemented these functions;
 
 * `SMF.Akbank.ExchangeRatesService`
-* `StockValuesService`
+* `SMF.Akbank.StockValuesService`
 
 ## How to use?
 
