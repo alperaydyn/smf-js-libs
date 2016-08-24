@@ -1,3 +1,4 @@
+/*globals SMF*/
 // namespace pattern
 (function() {
     function namespace(ns_string) {
@@ -24,6 +25,9 @@
  * @param apiKey {String} the apikey.
  */
 SMF.Akbank.ExchangeRatesService = function ExchangeRatesService(apiKey) {
+    if(!(this instanceof ExchangeRatesService))
+        return new ExchangeRatesService(apiKey);
+    
     var self = this;
 
     self.err;
@@ -44,7 +48,6 @@ SMF.Akbank.ExchangeRatesService = function ExchangeRatesService(apiKey) {
 
     // Getting Exchange rate for now()
     self.getExchangeRates = function(currencyCode) {
-        // XMLHttpRequest.profiling.enabled = true;
 
         //creating new XHR to get token
         var xhrGetExchangeRates = new XMLHttpRequest();
@@ -61,10 +64,10 @@ SMF.Akbank.ExchangeRatesService = function ExchangeRatesService(apiKey) {
         console.log(url);
 
         //adding auth header to the request
-        xhrGetExchangeRates.setRequestHeader('apikey', apiKey)
+        xhrGetExchangeRates.setRequestHeader('apikey', apiKey);
         xhrGetExchangeRates.open("GET", url);
         xhrGetExchangeRates.send();
-    }
+    };
 
     //if there is an error during syndication, we'll raise an alert
     function onGetExchangeRatesError(e) {
@@ -90,7 +93,7 @@ SMF.Akbank.ExchangeRatesService = function ExchangeRatesService(apiKey) {
     }
 
     return self;
-}
+};
 
 
 /**
@@ -98,6 +101,9 @@ SMF.Akbank.ExchangeRatesService = function ExchangeRatesService(apiKey) {
  * @param apiKey {String} the apikey.
  */
 SMF.Akbank.StockValuesService = function StockValuesService(apiKey) {
+    if(!(this instanceof StockValuesService))
+        return new StockValuesService(apiKey);
+    
     var self = this;
 
     self.err;
@@ -125,7 +131,6 @@ SMF.Akbank.StockValuesService = function StockValuesService(apiKey) {
 
     // Gets stock value of a symbol
     self.getStockValue = function(stockSymbol) {
-        // XMLHttpRequest.profiling.enabled = true;
 
         //creating new XHR to get token
         var xhrGet = new XMLHttpRequest();
@@ -139,10 +144,10 @@ SMF.Akbank.StockValuesService = function StockValuesService(apiKey) {
         console.log(url);
 
         //adding auth header to the request
-        xhrGet.setRequestHeader('apikey', apiKey)
+        xhrGet.setRequestHeader('apikey', apiKey);
         xhrGet.open("GET", url);
         xhrGet.send();
-    }
+    };
 
     //if there is an error during syndication, we'll raise an alert
     function onGetError(e) {
@@ -166,4 +171,4 @@ SMF.Akbank.StockValuesService = function StockValuesService(apiKey) {
     }
     
     return self;
-}
+};
