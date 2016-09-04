@@ -1,4 +1,5 @@
 /* globals mcs */
+/* Based on Oracle MCS JavaScript SDK v1.2-16.1.3.0 (1mb), 2016-2-17 */
 //"use strict";
 
 (function() {

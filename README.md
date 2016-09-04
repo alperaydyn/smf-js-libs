@@ -76,7 +76,7 @@ This library mimics **nodeJS** require implementation on Smartface. This is just
 - In order to work with **npm**, **node_modules** folder should be under **scripts** folder
 
 ### usage
-You need to have a seperate js file which will be your entry point. In the exampe it is given as **mainfile.js**
+You need to have a seperate js file which will be your entry point. In the example it is given as **mainfile.js**
 ```javascript
 include("libs/require.js");
 initRequire("mainfile.js");
@@ -93,6 +93,9 @@ make sure that current directory is `~/workspace/scripts` while using **npm**
 
 ## Oracle
 Oracle libray readme file is located under `libs/Oracle/README.md`
+
+## Akbank
+Akbank libray readme file is located under `libs/Akbank/README.md`
 
 ## The future
 
