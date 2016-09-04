@@ -111,18 +111,19 @@
         }
 
 
-        /*function stat(filename) {
+        function stat(filename) {
             filename = path._makeLong(filename);
-            var cache = stat.cache;
+            var cache = stat.cache,
+                result;
             if (cache !== null) {
-                var result = cache.get(filename);
+                result = cache.get(filename);
                 if (result !== undefined) return result;
             }
-            var result = internalModuleStat(filename);
+            result = SMF.scriptStat(filename);
             if (cache !== null) cache.set(filename, result);
             return result;
         }
-        stat.cache = null;*/
+        stat.cache = null;
 
 
         function Module(id, parent) {
@@ -172,9 +173,8 @@
                 return packageMainCache[requestPath];
             }
             var jsonPath = path.resolve(requestPath, 'package.json');
-            // throw Error("Not implemented");
             var fileN = path._makeLong(jsonPath);
-            fileN = fileN.startsWith("./")? fileN.substr(2): fileN;
+            fileN = fileN.startsWith("./") ? fileN.substr(2) : fileN;
             var json = SMF.readCode(fileN); //TODO: check
 
             if (json === undefined) {
@@ -196,7 +196,8 @@
             var pkg = null;
             try {
                 pkg = readPackage(requestPath);
-            }catch(ex) {}
+            }
+            catch (ex) {}
 
             if (!pkg) return false;
 
@@ -212,10 +213,12 @@
         // absolute realpath.
         function tryFile(requestPath, isMain) {
             //check file exist, if not exists return false
+            const rc = stat(requestPath);
             if (!isMain) {
-                return /*rc === 0 &&*/ path.resolve(requestPath);
+                return rc === 0 && path.resolve(requestPath);
             }
-            // return rc === 0 && fs.realpathSync(requestPath);
+            else
+                return false;
         }
 
         // given a path check a the file exists with any of the set extensions
@@ -259,31 +262,23 @@
                 var basePath = path.resolve(curPath, request);
                 var filename;
                 if (!trailingSlash) {
-                    //TODO: directory options is not included right now
-                    // var rc = stat(basePath);
-                    if (basePath.endsWith(".js")) { //This is a hack
-                        // if (rc === 0) { // File.
-                        // if (!isMain) {
+                    var rc = stat(basePath);
+                    if (rc === 0) { // File.
                         filename = path.resolve(basePath);
-                        // }
-                        // else {
-                        //     filename = fs.realpathSync(basePath);
-                        // }
                     }
-                    else {
-                        // else if (rc === 1) { // Directory.
+                    else if (rc === 1) { // Directory.
                         if (exts === undefined)
                             exts = Object.keys(Module._extensions);
                         filename = tryPackage(basePath, exts, isMain);
-                        
+
                     }
 
-                   /* if (!filename) {
+                    if (!filename) {
                         // try it with each of the extensions
                         if (exts === undefined)
                             exts = Object.keys(Module._extensions);
                         filename = tryExtensions(basePath, exts, isMain);
-                    }*/
+                    }
                 }
 
                 if (!filename) {
@@ -292,12 +287,12 @@
                     filename = tryPackage(basePath, exts, isMain);
                 }
 
-               /* if (!filename) {
-                    // try it with each of the extensions at "index"
-                    if (exts === undefined)
-                        exts = Object.keys(Module._extensions);
-                    filename = tryExtensions(path.resolve(basePath, 'index'), exts, isMain);
-                }*/
+                /* if (!filename) {
+                     // try it with each of the extensions at "index"
+                     if (exts === undefined)
+                         exts = Object.keys(Module._extensions);
+                     filename = tryExtensions(path.resolve(basePath, 'index'), exts, isMain);
+                 }*/
 
                 if (filename) {
                     // Warn once if '.' resolved outside the module dir
@@ -658,7 +653,7 @@
         // Native extension for .js
         Module._extensions['.js'] = function(module, filename) {
             // var content = fs.readFileSync(filename, 'utf8');
-            var fileN = filename.startsWith("./")? filename.substr(2): filename;
+            var fileN = filename.startsWith("./") ? filename.substr(2) : filename;
             var content = SMF.readCode(fileN);
             if (Device.deviceOS === "Android") { //bug COR-928
                 var c1 = content;
@@ -673,7 +668,7 @@
         Module._extensions['.json'] = function(module, filename) {
             // var content = fs.readFileSync(filename, 'utf8');
             throw Error("Not implemented");
-            var fileN = filename.startsWith("./")? filename.substr(2): filename;
+            var fileN = filename.startsWith("./") ? filename.substr(2) : filename;
             var content = SMF.readCode(fileN);
             try {
                 module.exports = JSON.parse(internalModule.stripBOM(content));
@@ -756,7 +751,7 @@
 
         // backwards compatibility
         return Module.Module = Module;
-    };
+    }
 
     libs.internalModule = function internalModule() {
         if (!internalModule.exports) {
@@ -2057,9 +2052,9 @@
 
 
     function ContextifyScript(code, options) {
-        if(SMF.Contextif)
+        if (SMF.Contextif)
             return new SMF.Contextify(code, options);
-        
+
         this.runInContext = function runInContext(contextifiedSandbox, options) {
             throw Error("Not implemented");
         };
@@ -2072,7 +2067,7 @@
         this.runInThisContext = function runInThisContext(options) {
             try {
                 var fn = eval(code);
-                
+
             }
             catch (ex) {
                 throw ex;
@@ -2080,11 +2075,12 @@
             //TODO: assign parameter values
             return fn;
         };
-        
+
 
     }
 
     var initiatedRequire = false;
+
     function initRequire(startFile) {
         if (initiatedRequire) {
             throw Error("Should not initRequire more than once");
