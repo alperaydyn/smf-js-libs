@@ -177,7 +177,7 @@
             fileN = fileN.startsWith("./") ? fileN.substr(2) : fileN;
             var json = SMF.readCode(fileN); //TODO: check
 
-            if (json === undefined) {
+            if (!json) {
                 return false;
             }
 
@@ -655,11 +655,6 @@
             // var content = fs.readFileSync(filename, 'utf8');
             var fileN = filename.startsWith("./") ? filename.substr(2) : filename;
             var content = SMF.readCode(fileN);
-            if (Device.deviceOS === "Android") { //bug COR-928
-                var c1 = content;
-                var li = content.lastIndexOf(";")
-                content = content.substring(0, li);
-            }
             module._compile(internalModule.stripBOM(content), filename);
         };
 
