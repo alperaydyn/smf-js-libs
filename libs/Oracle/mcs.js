@@ -1,5 +1,5 @@
 /* globals mcs */
-/* Based on Oracle MCS JavaScript SDK v1.2-16.1.3.0 (1mb), 2016-2-17 */
+/* Based on Oracle MCS JavaScript SDK v2.0-16.2.3.0 (1mb), 2016-06-17 */
 //"use strict";
 
 (function() {
@@ -40,18 +40,18 @@ mcs.logLevelVerbose = 3;
 
 mcs._Logger.logLevel = mcs.logLevelInfo;
 
-mcs._Logger.Exception = function(message) {
+mcs._Logger.Exception = function(message){
   this.message = message;
   this.name = "Exception";
-  console.log(this.name + " : " + this.message);
+    console.log(this.name + " : " + this.message);
 };
 
-mcs._Logger.debug = function(tag, message) {
-  console.log(tag + ' ' + message);
+mcs._Logger.debug = function (tag, message) {
+    console.log(tag + ' ' + message);
 };
 
 mcs._Logger.log = function(level, message) {
-  if (mcs._Logger.logLevel >= level) {
+  if(mcs._Logger.logLevel >= level) {
     console.log(message);
   }
 };
@@ -70,18 +70,18 @@ mcs._Logger.log = function(level, message) {
 
 var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
-mcs._Utils.uuid = function() {
+mcs._Utils.uuid = function () {
 
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0,
-      v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
+    var r = Math.random()*16|0,
+      v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
   });
 };
 
-mcs._Utils.validateConfiguration = function(input) {
+mcs._Utils.validateConfiguration = function(input){
   var prop = input;
-  if (/\s/.test(prop)) {
+  if (/\s/.test(prop) && prop != undefined) {
     prop = removeSpace(input);
   }
   return prop;
@@ -111,16 +111,15 @@ mcs._Utils.encodeBase64 = function(input) {
 
     if (isNaN(chr2)) {
       enc3 = enc4 = 64;
-    }
-    else if (isNaN(chr3)) {
+    } else if (isNaN(chr3)) {
       enc4 = 64;
     }
 
     output = output +
-      keyStr.charAt(enc1) +
-      keyStr.charAt(enc2) +
-      keyStr.charAt(enc3) +
-      keyStr.charAt(enc4);
+    keyStr.charAt(enc1) +
+    keyStr.charAt(enc2) +
+    keyStr.charAt(enc3) +
+    keyStr.charAt(enc4);
     chr1 = chr2 = chr3 = "";
     enc1 = enc2 = enc3 = enc4 = "";
   } while (i < input.length);
@@ -169,7 +168,12 @@ mcs._Utils.decodeBase64 = function(input) {
   return output;
 };
 
-//"use strict";
+mcs._Utils.hasValue = function(obj, key, value) {
+
+  return obj.hasOwnProperty(key) && obj[key] === value;
+};
+
+"use strict";
 
 /** @ignore */
 
@@ -256,13 +260,13 @@ var Platform = function() {
    * @param state {mcs.DeviceState} The new state of the device.
    */
   this.setDeviceState = function(state) {
-    if (this._deviceState != state) {
+    if(this._deviceState != state) {
 
       mcs._Logger.log(mcs.logLevelInfo, "Device state changing from " + this._deviceState + " to " + state);
 
       this._deviceState = state;
 
-      for (var i = 0; i < this._deviceStateChangedCallbacks.length; i++) {
+      for(var i=0; i<this._deviceStateChangedCallbacks.length; i++) {
         this._deviceStateChangedCallbacks[i](this._deviceState);
       }
     }
@@ -286,7 +290,7 @@ var Platform = function() {
    */
   this.validateCachedCredentials = function(username, password) {
     return false;
-  };
+};
 };
 
 (function() {
@@ -309,26 +313,26 @@ var Platform = function() {
      */
     offline: 0,
 
-    /**
-     * Indicates that the device is online and network and battery state allow for unrestricted
-     * background processing.
-     * @type {Number}
-     */
-    unrestricted: 1,
+  /**
+   * Indicates that the device is online and network and battery state allow for unrestricted
+   * background processing.
+   * @type {Number}
+   */
+  unrestricted: 1,
 
-    /**
-     * Indicates that the device is online and network and battery state allow for only restricted
-     * important background processing.
-     * @type {Number}
-     */
-    restricted: 2,
+  /**
+   * Indicates that the device is online and network and battery state allow for only restricted
+   * important background processing.
+   * @type {Number}
+   */
+  restricted: 2,
 
-    /**
-     * Indicates that the network and battery state do not allow for any background processing ex.
-     * the device may be on a roaming data network or the battery charge level may be low.
-     * @type {Number}
-     */
-    critical: 3
+  /**
+   * Indicates that the network and battery state do not allow for any background processing ex.
+   * the device may be on a roaming data network or the battery charge level may be low.
+   * @type {Number}
+   */
+  critical: 3
   };
 }());
 
@@ -346,12 +350,12 @@ var BrowserPlatform = function() {
 
   this.isCordova = false;
 
-  this.invokeService = function(request) {
+  this.invokeService = function (request) {
     var xhr = new XMLHttpRequest();
     xhr.open(request.method, request.url);
 
-    for (var key in request.headers) {
-      if (request.headers.hasOwnProperty(key)) {
+    for(var key in request.headers){
+      if(request.headers.hasOwnProperty(key)) {
         xhr.setRequestHeader(key, request.headers[key]);
       }
     }
@@ -362,21 +366,21 @@ var BrowserPlatform = function() {
         if (xhr.status >= 200 && xhr.status <= 299) {
           if (request.success != null) {
             var jsonResponse = xhr.response;
-            if (typeof xhr.response == "string") {
+            if(typeof xhr.response == "string"){
               jsonResponse = xhr.response == "" ? {} : JSON.parse(xhr.response);
             }
             request.success(xhr, jsonResponse);
           }
         }
-        else {
-          if (request.error != null) {
+        else{
+          if(request.error != null){
             request.error(xhr.status, xhr.response);
           }
         }
       }
     };
     xhr.send(request.body);
-  };
+};
 };
 
 (function() {
@@ -384,7 +388,7 @@ var BrowserPlatform = function() {
   BrowserPlatform.prototype = new mcs.Platform();
 
   var g = typeof window != 'undefined' ? window : global;
-  g.mcs = g.mcs || {};
+  g.mcs = g.mcs|| {};
   g.mcs.BrowserPlatform = BrowserPlatform;
 }());
 
@@ -428,7 +432,7 @@ function AnalyticsEvent(name) {
 (function() {
   var g = typeof window != 'undefined' ? window : global;
 
-  g.mcs = g.mcs || {};
+  g.mcs= g.mcs|| {};
   g.mcs.AnalyticsEvent = AnalyticsEvent;
 }());
 
@@ -459,14 +463,14 @@ function Analytics(backend) {
   /**
    * Returns session Id for current session.
    */
-  this.getSessionId = function() {
+  this.getSessionId = function(){
     return this.sessionID;
   };
 
   /**
    * Starts a new session. If one is in progress, then a new session will not be created.
    */
-  this.startSession = function() {
+  this.startSession = function () {
     if (this.sessionID == null) {
       this.sessionID = mcs._Utils.uuid();
       this.logNamedEvent("sessionStart").type = "system";
@@ -476,11 +480,11 @@ function Analytics(backend) {
   /**
    * Ends a session if one exists.
    */
-  this.endSession = function(successCallback, errorCallback) {
+  this.endSession = function (successCallback, errorCallback) {
     if (this.sessionID != null) {
       this.logNamedEvent("sessionEnd").type = "system";
       mcs._Logger.log("Deactivate a default session");
-      this.flush(successCallback, errorCallback);
+      this.flush(successCallback,errorCallback);
       this.sessionID = null;
     }
   };
@@ -490,7 +494,7 @@ function Analytics(backend) {
    * @param name {String} The name of the event.
    * @returns {AnalyticsEvent} The [AnalyticsEvent]{@link AnalyticsEvent} instance that was logged.
    */
-  this.logNamedEvent = function(name) {
+  this.logNamedEvent = function (name) {
     var event = new mcs.AnalyticsEvent(name);
     this.logEvent(event);
     return event;
@@ -503,7 +507,7 @@ function Analytics(backend) {
    * @example event: "GettingStartedJSEvent"
    * @returns {AnalyticsEvent} The [AnalyticsEvent]{@link AnalyticsEvent} instance that was logged.
    */
-  this.logEvent = function(event) {
+  this.logEvent = function (event) {
     if (this._events.length == 0) {
       this._events[0] = this._createContextEvent();
     }
@@ -533,7 +537,7 @@ function Analytics(backend) {
    * @param successCallback {Analytics~flushSuccessCallback} Callback invoked on success.
    * @param errorCallback {Analytics~errorCallback} Callback invoked on error.
    */
-  this.flush = function(successCallback, errorCallback) {
+  this.flush = function (successCallback, errorCallback) {
     for (var i = 0; i < this._events.length; i++) {
       if (this._events[i].name == "context") {
 
@@ -561,14 +565,14 @@ function Analytics(backend) {
       url: analytics.backend.getPlatformUrl("analytics/events"),
       headers: headers,
       body: eventsString,
-      success: function() {
+      success: function () {
         mcs._Logger.log("Analytics events flushed.");
         analytics._events = [];
         if (successCallback != null) {
           successCallback();
         }
       },
-      error: function(statusCode, data) {
+      error: function (statusCode, data) {
         mcs._Logger.log("Failed to flush analytics events.");
         if (errorCallback != null) {
           errorCallback(statusCode, data);
@@ -577,7 +581,7 @@ function Analytics(backend) {
     });
   };
 
-  this._createContextEvent = function() {
+  this._createContextEvent = function () {
     var contextEvent = new mcs.AnalyticsEvent("context");
     contextEvent.type = "system";
     contextEvent.properties.timezone = "" + new Date().getTimezoneOffset() * 60;
@@ -597,7 +601,7 @@ function Analytics(backend) {
 (function() {
   var g = typeof window != 'undefined' ? window : global;
 
-  g.mcs = g.mcs || {};
+  g.mcs= g.mcs || {};
   g.mcs._Analytics = Analytics;
 }());
 
@@ -741,16 +745,16 @@ function Authorization(config, backend, type) {
       headers: auth.backend.getHttpHeaders(),
 
       success: function(response, data) {
-        if (successCallback != null) {
+        if(successCallback != null) {
           var user = new mcs.User(data);
-          if (user.links != null) {
+          if(user.links != null) {
             delete user.links;
           }
-          successCallback(response.status, user);
+          successCallback(response.status,user);
         }
       },
       error: function(statusCode, data) {
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }
@@ -851,28 +855,96 @@ function BasicAuthorization(config, backend, appKey) {
   var BackendIdHeader = "Oracle-Mobile-Backend-Id";
   var ApplicationKeyHeader = "Oracle-Mobile-Application-Key";
 
+  var anonymousAccessToken = null;
+  var AccessToken = null;
+  var isAuthorized = false;
+  var isAnonymous = false;
 
   var basicAuth = this;
 
   /**
    * Returns anonymous token for the current backend.
    */
-  this.getAnonymousToken = function() {
+  this.getAnonymousToken = function(){
     return _anonymousToken;
   };
 
   /**
    * Returns application key for the current backend.
    */
-  this.getApplicationKey = function() {
+  this.getApplicationKey = function(){
     return _appKey;
   };
 
   /**
    * Returns the backendId for the current backend.
    */
-  this.getBackendId = function() {
+  this.getBackendId = function(){
     return _backendId;
+  };
+
+  /**
+   * Returns the current access token from user credentials.
+   * @return current access token from user credentials.
+   */
+  this.getAccessToken = function () {
+    return AccessToken;
+  };
+
+  /**
+   * Sets the accessToken for using the current access token from user credentials.
+   * @param accesstoken
+   */
+  this.setAccessToken = function (accesstoken) {
+    AccessToken = accesstoken;
+  };
+
+  /**
+   * Returns the current anonymous access token.
+   * @return current anonymous access token.
+   */
+  this.getAnonymousAccessToken = function () {
+    return anonymousAccessToken;
+  };
+
+  /**
+   * Sets the current anonymous access token.
+   * @param accesstoken
+   */
+  this.setAnonymousAccessToken = function (accesstoken) {
+    anonymousAccessToken = accesstoken;
+  };
+
+  /**
+   * Returns the current isAuthorized variable value.
+   * @return current isAuthorized variable value.
+   */
+  this.getIsAuthorized = function () {
+    return isAuthorized;
+  };
+
+  /**
+   * Sets the current isAuthorized variable value.
+   * @param authorized
+   */
+  this.setIsAuthorized = function (authorized) {
+    isAuthorized = authorized;
+  };
+
+  /**
+   * Returns the current isAnonymous variable value.
+   * @return current isAnonymous variable value.
+   */
+  this.getIsAnonymous = function () {
+    return isAnonymous;
+  };
+
+  /**
+   * Sets the current isAnonymous variable value.
+   * @param anonymous
+   */
+  this.setIsAnonymous = function (anonymous) {
+    isAnonymous = anonymous;
   };
 
   /**
@@ -897,58 +969,15 @@ function BasicAuthorization(config, backend, appKey) {
    */
 
   /**
-   * Authenticates an anonymous user against the service. The user remains logged in until logout() is called.
-   * @param successCallback {Authorization~authenticateSuccessCallback} Optional callback invoked on success.
-   * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
-   */
-  this.authenticateAnonymous = function(successCallback, errorCallback) {
-
-    basicAuth.logout();
-    basicAuth.isAuthorized = false;
-
-    var currentToken = "Basic " + basicAuth.getAnonymousToken();
-
-    mcs.MobileBackendManager.platform.invokeService({
-      url: basicAuth.backend.getPlatformUrl("users/login"),
-      method: 'GET',
-      headers: {
-        "Authorization": currentToken,
-        "Oracle-Mobile-Backend-Id": basicAuth.getBackendId(),
-        "Oracle-Mobile-Application-Key": basicAuth.getApplicationKey()
-      },
-      success: function(response, data) {
-        mcs._Logger.log(mcs.logLevelInfo, "User logged in anonymously " + response.status);
-        basicAuth.isAuthorized = true;
-        basicAuth.token = currentToken;
-
-        if (successCallback != null) {
-          successCallback(response.status, data);
-        }
-      },
-
-      error: function(statusCode, data) {
-        mcs._Logger.log(mcs.logLevelError, "Login failed with error: " + statusCode);
-
-        clearState();
-
-        if (errorCallback != null) {
-          errorCallback(statusCode);
-        }
-      }
-    });
-  };
-
-  /**
    * Authenticates a user with the given credentials against the service. The user remains logged in until logout() is called.
    * @param username {String} The username of the credentials.
    * @param password {String} The password of the credentials.
    * @param successCallback {Authorization~authenticateSuccessCallback} Optional callback invoked on success.
    * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
    */
-  this.authenticate = function(username, password, successCallback, errorCallback) {
+  this.authenticate = function (username, password, successCallback, errorCallback) {
 
     basicAuth.logout();
-    basicAuth.isAuthorized = false;
 
     if (!username || !password) {
       mcs._Logger.log(mcs.logLevelError, "Wrong username or password parameter");
@@ -968,13 +997,12 @@ function BasicAuthorization(config, backend, appKey) {
         "Oracle-Mobile-Backend-Id": basicAuth.getBackendId(),
         "Oracle-Mobile-Application-Key": basicAuth.getApplicationKey()
       },
-      success: function(response, data) {
+      success: function (response, data) {
         mcs._Logger.log(mcs.logLevelInfo, "User " + username + " logged in");
-        basicAuth.isAuthorized = true;
-        basicAuth.token = currentToken;
+        basicAuth.setIsAuthorized(true);
+        basicAuth.setIsAnonymous(false);
+        basicAuth.setAccessToken(currentToken);
         basicAuth.authorizedUserName = username;
-
-        mcs.MobileBackendManager.platform.cacheCredentials(username, password);
 
         if (successCallback != null) {
           successCallback(response.status, data);
@@ -982,15 +1010,74 @@ function BasicAuthorization(config, backend, appKey) {
       },
 
       error: function(statusCode, data) {
-        mcs._Logger.log(mcs.logLevelError, "Login failed with error: " + statusCode);
+        mcs._Logger.log(mcs.logLevelError,  "Login failed with error: " + statusCode);
 
         clearState();
 
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }
     });
+  };
+
+  /**
+   * Authenticates an anonymous user against the service. The user remains logged in until logout() is called.
+   * @param successCallback {Authorization~authenticateSuccessCallback} Optional callback invoked on success.
+   * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
+   */
+  this.authenticateAnonymous = function (successCallback, errorCallback) {
+
+    basicAuth.logout();
+
+    var currentToken = "Basic " + basicAuth.getAnonymousToken();
+
+    mcs.MobileBackendManager.platform.invokeService({
+      url: basicAuth.backend.getPlatformUrl("users/login"),
+      method: 'GET',
+      headers: {
+        "Authorization": currentToken,
+        "Oracle-Mobile-Backend-Id": basicAuth.getBackendId(),
+        "Oracle-Mobile-Application-Key": basicAuth.getApplicationKey()
+      },
+      success: function (response, data) {
+        mcs._Logger.log(mcs.logLevelInfo, "User logged in anonymously " + response.status);
+        basicAuth.setIsAuthorized(true);
+        basicAuth.setIsAnonymous(true);
+        basicAuth.setAnonymousAccessToken(currentToken);
+
+        if (successCallback != null) {
+          successCallback(response.status, data);
+        }
+      },
+
+      error: function(statusCode, data) {
+        mcs._Logger.log(mcs.logLevelError,  "Login failed with error: " + statusCode);
+
+        clearState();
+
+        if(errorCallback != null) {
+          errorCallback(statusCode, data);
+        }
+      }
+    });
+  };
+
+
+  /**
+   * Checks to see if the authorization token is null,undefined,NaN,empty string (""),0,false.
+   * @returns {Boolean}
+   */
+  this.isTokenValid = function () {
+
+    if (basicAuth.getAccessToken() !== null && typeof basicAuth.getAccessToken() == 'string') {
+      mcs._Logger.log(mcs.logLevelInfo, "Authorization token is not null or empty");
+      return true;
+    }
+    else if (basicAuth.getAccessToken() == null && typeof basicAuth.getAccessToken() !== 'string') {
+      mcs._Logger.log(mcs.logLevelInfo, "Authorization token is null and/or empty");
+      return false;
+    }
   };
 
   /**
@@ -1000,8 +1087,19 @@ function BasicAuthorization(config, backend, appKey) {
    * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
    */
   this.refreshToken = function(successCallback, errorCallback) {
-    if (successCallback != null) {
-      successCallback();
+
+    var boolean = basicAuth.isTokenValid();
+
+    if (basicAuth.getIsAuthorized() == false && boolean !== true) {
+      if (errorCallback !== null) {
+        errorCallback(401, "Please use the authenticate with username/password combination or authenticateAnonymous function before using refreshToken.")
+      }
+    }
+    else if (basicAuth.getIsAuthorized() == true && boolean == true) {
+      if (successCallback !== null) {
+        mcs._Logger.log(mcs.logLevelError, "Authenticated token is valid, you do not need to refresh.");
+        successCallback(200, basicAuth.getAccessToken());
+      }
     }
   };
 
@@ -1009,22 +1107,34 @@ function BasicAuthorization(config, backend, appKey) {
    * Logs out the current user and clears credentials and tokens.
    */
   this.logout = function() {
-    basicAuth.token = null;
     basicAuth.authorizedUserName = null;
+    basicAuth.setAccessToken(null);
+    basicAuth.setAnonymousAccessToken(null);
+    basicAuth.setIsAuthorized(false);
+    basicAuth.setIsAnonymous(false);
   };
 
-
   this._getHttpHeaders = function(headers) {
-    if (basicAuth.token != null && typeof basicAuth.token == "string") {
-      headers[AuthorizationHeader] = basicAuth.token;
+    if (basicAuth.getAccessToken() !== null && typeof basicAuth.getAccessToken() == "string") {
+      headers[AuthorizationHeader] = basicAuth.getAccessToken();
+    }
+    headers[BackendIdHeader] = basicAuth.getBackendId();
+    headers[ApplicationKeyHeader]= basicAuth.getApplicationKey();
+  };
+
+  this._getAnonymousHttpHeaders = function (headers) {
+    if (basicAuth.getAnonymousAccessToken() !== null && typeof basicAuth.getAnonymousAccessToken() == "string") {
+      headers[AuthorizationHeader] = basicAuth.getAnonymousAccessToken();
     }
     headers[BackendIdHeader] = basicAuth.getBackendId();
     headers[ApplicationKeyHeader] = basicAuth.getApplicationKey();
   };
 
-  function clearState() {
-    basicAuth.isAuthorized = false;
-    basicAuth.token = null;
+  function clearState(){
+    basicAuth.setAccessToken(null);
+    basicAuth.setAnonymousAccessToken(null);
+    basicAuth.setIsAuthorized(false);
+    basicAuth.setIsAnonymous(false);
     basicAuth.authorizedUserName = null;
   }
 }
@@ -1055,7 +1165,7 @@ function OAuthAuthorization(config, backend, appKey) {
   var _clientSecret = mcs._Utils.validateConfiguration(config.clientSecret);
   var _appKey = mcs._Utils.validateConfiguration(appKey);
 
-  if (config.hasOwnProperty("userIdentityDomainName")) {
+  if(config.hasOwnProperty("userIdentityDomainName")){
     var _tenantName = mcs._Utils.validateConfiguration(config.userIdentityDomainName);
   }
 
@@ -1063,8 +1173,11 @@ function OAuthAuthorization(config, backend, appKey) {
   var UserIdentityDomainNameHeader = "X-USER-IDENTITY-DOMAIN-NAME";
   var ApplicationKeyHeader = "Oracle-Mobile-Application-Key";
 
-  var AccessToken,
-    ExpiredTime = null;
+  var anonymousAccessToken = null;
+  var AccessToken = null;
+  var ExpiredTime = null;
+  var isAuthorized = false;
+  var isAnonymous = false;
 
   var oAuth = this;
 
@@ -1079,46 +1192,95 @@ function OAuthAuthorization(config, backend, appKey) {
   /**
    * Returns client Id for the current backend.
    */
-  this.getClientId = function() {
+  this.getClientId = function(){
     return _clientId;
   };
 
   /**
    * Returns application key for the current backend.
    */
-  this.getApplicationKey = function() {
+  this.getApplicationKey = function(){
     return _appKey;
   };
 
   /**
    * Returns tenantName for the current backend.
    */
-  this.getTenantName = function() {
+  this.getTenantName = function(){
     return _tenantName;
   };
 
   /**
    * Returns the client Secret for the current backend.
    */
-  this.getClientSecret = function() {
+  this.getClientSecret= function(){
     return _clientSecret;
   };
 
   /**
-   * Returns the current OAuth access token from OAM.
-   * @return current OAuth access token from Facebook.
+   * Returns the current access token from user credentials.
+   * @return current access token from user credentials.
    */
-  this.getAccessToken = function() {
+  this.getAccessToken = function () {
     return AccessToken;
   };
 
   /**
-   * Sets the accessToken for using the token retrieved from SIM.
+   * Sets the accessToken for using the current access token from user credentials.
    * @param accesstoken
    */
-  this.setAccessToken = function(accesstoken) {
+  this.setAccessToken = function (accesstoken) {
     AccessToken = accesstoken;
   };
+
+  /**
+   * Returns the current anonymous access token.
+   * @return current anonymous access token.
+   */
+  this.getAnonymousAccessToken = function () {
+    return anonymousAccessToken;
+  };
+
+  /**
+   * Sets the current anonymous access token.
+   * @param accesstoken
+   */
+  this.setAnonymousAccessToken = function (accesstoken) {
+    anonymousAccessToken = accesstoken;
+  };
+
+  /**
+   * Returns the current isAuthorized variable value.
+   * @return current isAuthorized variable value.
+   */
+  this.getIsAuthorized = function () {
+    return isAuthorized;
+  };
+
+  /**
+   * Sets the current isAuthorized variable value.
+   * @param authorized
+   */
+  this.setIsAuthorized = function (authorized) {
+    isAuthorized = authorized;
+  };
+
+  /**
+   * Returns the current isAnonymous variable value.
+   * @return current isAnonymous variable value.
+   */
+  this.getIsAnonymous = function () {
+    return isAnonymous;
+  };
+
+  /**
+   * Sets the current isAnonymous variable value.
+   * @param anonymous
+   */
+  this.setIsAnonymous = function (anonymous) {
+    isAnonymous = anonymous;
+  };
+
 
   /**
    * Callback invoked after successfully authenticating.
@@ -1142,34 +1304,29 @@ function OAuthAuthorization(config, backend, appKey) {
    * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
    */
 
-  this.authenticate = function(username, password, successCallback, errorCallback) {
+  this.authenticate = function (username, password, successCallback, errorCallback) {
 
     oAuth.logout();
-    oAuth.isAuthorized = false;
 
-    if (!username || !password) {
+    if(!username || !password){
       mcs._Logger.log(mcs.logLevelError, "Wrong username or password parameter");
-      if (errorCallback) {
+      if(errorCallback){
         errorCallback(400, 'Bad Request');
       }
       return;
     }
 
-    oAuth.token = "Basic " + mcs._Utils.encodeBase64(oAuth.getClientId() + ":" + oAuth.getClientSecret());
+    var currentToken = "Basic " + mcs._Utils.encodeBase64(oAuth.getClientId() + ":" + oAuth.getClientSecret());
     var requestBody = urlEncodeComponent(username, password);
 
     var headers = {};
 
-    if (oAuth.getTenantName()) {
-      headers['Content-type'] = 'application/x-www-form-urlencoded; charset=utf-8';
-      headers[AuthorizationHeader] = oAuth.token;
-      headers[ApplicationKeyHeader] = oAuth.getApplicationKey();
+    headers['Content-type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+    headers[AuthorizationHeader] = currentToken;
+    headers[ApplicationKeyHeader] = oAuth.getApplicationKey();
+
+    if(typeof oAuth.getTenantName() !== 'undefined'){
       headers[UserIdentityDomainNameHeader] = oAuth.getTenantName();
-    }
-    else {
-      headers['Content-type'] = 'application/x-www-form-urlencoded; charset=utf-8';
-      headers[AuthorizationHeader] = oAuth.token;
-      headers[ApplicationKeyHeader] = oAuth.getApplicationKey();
     }
 
     mcs.MobileBackendManager.platform.invokeService({
@@ -1178,9 +1335,10 @@ function OAuthAuthorization(config, backend, appKey) {
       headers: headers,
       body: requestBody,
 
-      success: function(response, data) {
+      success: function (response, data) {
         mcs._Logger.log(mcs.logLevelInfo, "OAuth Token received and time before it expires in seconds");
-        oAuth.IsAuthorized = true;
+        oAuth.setIsAnonymous(true);
+        oAuth.setIsAuthorized(false);
         oAuth.authorizedUserName = username;
         oAuth.setAccessToken(data.access_token);
         ExpiredTime = Date.now() + data.expires_in * 1000;
@@ -1189,8 +1347,8 @@ function OAuthAuthorization(config, backend, appKey) {
           successCallback(response.status, data);
         }
       },
-      error: function(statusCode, data) {
-        mcs._Logger.log(mcs.logLevelError, "Login failed with error: " + data);
+      error: function (statusCode, data) {
+        mcs._Logger.log(mcs.logLevelError, "Login failed with error: " + statusCode);
 
         clearState();
 
@@ -1201,36 +1359,87 @@ function OAuthAuthorization(config, backend, appKey) {
     });
   };
 
+  /**
+   * Authenticates an anonymous user against the service. The user remains logged in until logout() is called.
+   * @param successCallback {Authorization~authenticateSuccessCallback} Optional callback invoked on success.
+   * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
+   */
+  this.authenticateAnonymous = function (successCallback, errorCallback) {
+
+    oAuth.logout();
+
+    var currentToken = "Basic " + mcs._Utils.encodeBase64(oAuth.getClientId() + ":" + oAuth.getClientSecret());
+
+    var headers = {};
+
+    headers['Content-type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+    headers[AuthorizationHeader] = currentToken;
+    headers[ApplicationKeyHeader] = oAuth.getApplicationKey();
+
+    if (typeof oAuth.getTenantName() !== 'undefined') {
+      headers[UserIdentityDomainNameHeader] = oAuth.getTenantName();
+    }
+
+    mcs.MobileBackendManager.platform.invokeService({
+      url: oAuth.backend.getOAuthTokenUrl(),
+      method: 'POST',
+      headers: headers,
+      body: 'grant_type=client_credentials',
+
+      success: function (response, data) {
+        mcs._Logger.log(mcs.logLevelInfo, "OAuth Token received and time before it expires in seconds");
+        oAuth.setIsAnonymous(true);
+        oAuth.setIsAuthorized(true);
+        oAuth.setAnonymousAccessToken(data.access_token);
+        ExpiredTime = Date.now() + data.expires_in * 1000;
+
+        if (successCallback != null) {
+          successCallback(response.status, data);
+        }
+      },
+      error: function (statusCode, data) {
+        mcs._Logger.log(mcs.logLevelError, "Login failed with error: " + statusCode);
+
+        clearState();
+
+        if (errorCallback != null) {
+          errorCallback(statusCode, data);
+        }
+      }
+    });
+  };
 
   /**
    * Checks to see if the OAuth token is null,undefined,NaN,empty string (""),0,false and also checks the timestamp
    * of when the token was first retrieved to see if it was still valid.
    * @returns {Boolean}
    */
-  this.isTokenValid = function() {
+  this.isTokenValid = function () {
 
-    if (oAuth.getAccessToken()) {
+    if (oAuth.getAccessToken() !== null || oAuth.getAnonymousAccessToken() !== null) {
       mcs._Logger.log(mcs.logLevelVerbose, "OAuth Token is not null or empty");
-    }
-    var currentTime = Date.now();
-    if (currentTime >= oAuth.ExpiredTime) {
-      mcs._Logger.log(mcs.logLevelInfo, "token has expired");
-      return false;
-    }
-    else {
-      mcs._Logger.log(mcs.logLevelVerbose, "token is still valid");
-      return true;
-    }
+      }
+      var currentTime = Date.now();
+      if (currentTime >= ExpiredTime) {
+        mcs._Logger.log(mcs.logLevelInfo, "Token has expired");
+          return false;
+        }
+      else {
+        mcs._Logger.log(mcs.logLevelVerbose, "Token is still valid");
+          return true;
+      }
   };
 
   /**
    * Logs out the current user and clears credentials and tokens.
    */
   this.logout = function() {
-    oAuth.isAuthorized = false;
-    oAuth.setAccessToken(null);
-    ExpiredTime = Date.now() * 1000;
     oAuth.authorizedUserName = null;
+    oAuth.setIsAnonymous(false);
+    oAuth.setIsAuthorized(false);
+    oAuth.setAccessToken(null);
+    oAuth.setAnonymousAccessToken(null);
+    ExpiredTime = Date.now() * 1000;
   };
 
   /**
@@ -1240,112 +1449,79 @@ function OAuthAuthorization(config, backend, appKey) {
    * @param successCallback {Authorization~authenticateSuccessCallback} Optional callback invoked on success.
    * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
    */
-  this.refreshToken = function(successCallback, errorCallback) {
+  this.refreshToken = function(successCallback,errorCallback) {
 
-    var bool = oAuth.isTokenValid();
-    if (bool == true) {
-      mcs._Logger.log(mcs.logLevelError, "Token is valid, you do not need to refresh.");
-      if (successCallback != null) {
-        successCallback('200', oAuth.getAccessToken());
-      }
-    }
-    else {
-      mcs._Logger.log(mcs.logLevelError, "Token has expired.");
-      if (errorCallback != null) {
-        errorCallback('401', 'Token has expired');
-      }
-    }
-  };
+    var boolean = oAuth.isTokenValid();
 
-  /**
-   * Authenticates an anonymous user against the service. The user remains logged in until logout() is called.
-   * @param successCallback {Authorization~authenticateSuccessCallback} Optional callback invoked on success.
-   * @param errorCallback {Authorization~authenticateErrorCallback} Optional callback invoked on failure.
-   */
-  this.authenticateAnonymous = function(successCallback, errorCallback) {
-
-    oAuth.logout();
-    oAuth.isAuthorized = false;
-
-    oAuth.token = "Basic " + mcs._Utils.encodeBase64(oAuth.getClientId() + ":" + oAuth.getClientSecret());
-
-    var headers = {};
-
-    if (oAuth.getTenantName()) {
-      headers['Content-type'] = 'application/x-www-form-urlencoded; charset=utf-8';
-      headers[AuthorizationHeader] = oAuth.token;
-      headers[UserIdentityDomainNameHeader] = oAuth.getTenantName();
-      headers[ApplicationKeyHeader] = oAuth.getApplicationKey();
-    }
-    else {
-      headers['Content-type'] = 'application/x-www-form-urlencoded; charset=utf-8';
-      headers[AuthorizationHeader] = oAuth.token;
-      headers[ApplicationKeyHeader] = oAuth.getApplicationKey();
-    }
-
-    mcs.MobileBackendManager.platform.invokeService({
-      url: oAuth.backend.getOAuthTokenUrl(),
-      method: 'POST',
-      headers: headers,
-      body: 'grant_type=client_credentials',
-
-      success: function(response, data) {
-        mcs._Logger.log(mcs.logLevelInfo, "OAuth Token received and time before it expires in seconds");
-        oAuth.IsAuthorized = true;
-        oAuth.setAccessToken(data.access_token);
-        ExpiredTime = Date.now() + data.expires_in * 1000;
-
+    if (boolean !== false) {
+      if (oAuth.getAccessToken() == null && oAuth.getIsAnonymous() !== false) {
         if (successCallback != null) {
-          successCallback(response.status, data);
-        }
-      },
-      error: function(statusCode, data) {
-        mcs._Logger.log(mcs.logLevelError, "Login failed with error: " + data);
-
-        clearState();
-
-        if (errorCallback != null) {
-          errorCallback(statusCode, data);
+          mcs._Logger.log(mcs.logLevelError, "Anonymous token is valid, you do not need to refresh.");
+          successCallback(200, oAuth.getAnonymousAccessToken());
         }
       }
-    });
+      if (oAuth.getAnonymousAccessToken() == null && oAuth.getIsAnonymous() !== true) {
+        if (successCallback != null) {
+          mcs._Logger.log(mcs.logLevelError, "Authenticated token is valid, you do not need to refresh.");
+          successCallback(200, oAuth.getAccessToken());
+        }
+      }
+    }
+    else{
+      mcs._Logger.log(mcs.logLevelError, "Token has expired or user has not been authenticate with the service.");
+      if(errorCallback != null){
+        errorCallback(401, "Please use the authenticate with username/password combination or authenticateAnonymous function before using refreshToken.")
+      }
+    }
   };
 
-  var clearState = function() {
-    oAuth.isAuthorized = false;
-    oAuth.setAccessToken(null);
-    ExpiredTime = Date.now() * 1000;
+  var clearState = function(){
     oAuth.authorizedUserName = null;
+    oAuth.setIsAnonymous(false);
+    oAuth.setIsAuthorized(false);
+    oAuth.setAccessToken(null);
+    oAuth.setAnonymousAccessToken(null);
+    ExpiredTime = Date.now() * 1000;
   };
 
-  var urlEncodeComponent = function(user, pass) {
+  var urlEncodeComponent = function(user,pass){
 
-    var username;
-    var password;
+      var username;
+      var password;
 
-    if (user.indexOf("@")) {
-      username = encodeURIComponent(user).replace(/%20/g, '+');
-    }
-    else {
-      username = encodeURIComponent(user).replace(/%5B/g, '[').replace(/%5D/g, ']');
-    }
+      if(user.indexOf("@") > -1){
+        username = encodeURIComponent(user).replace(/%20/g,'+');
+      }
+      else{
+        username = encodeURIComponent(user).replace(/%5B/g, '[').replace(/%5D/g, ']');
+      }
 
-    if (pass.indexOf("&")) {
-      password = encodeURIComponent(pass).replace(/%20/g, '+');
-    }
-    else {
-      password = encodeURIComponent(pass).replace(/%5B/g, '[').replace(/%5D/g, ']');
-    }
+      if(pass.indexOf("&") > -1){
+        password = encodeURIComponent(pass).replace(/%20/g,'+');
+      }
+      else{
+        password = encodeURIComponent(pass).replace(/%5B/g, '[').replace(/%5D/g, ']');
+      }
 
-    return "grant_type=password&username=" + username + "&password=" + password;
-  };
+      return "grant_type=password&username=" + username +"&password=" + password;
+    };
 
-  this._getHttpHeaders = function(headers) {
-    if (oAuth.getAccessToken() != null && typeof oAuth.getAccessToken() == "string") {
+  this._getHttpHeaders = function (headers) {
+    if (oAuth.getAccessToken() !== null && typeof oAuth.getAccessToken() == "string") {
       headers[AuthorizationHeader] = "Bearer " + oAuth.getAccessToken();
+    }
+      headers[ApplicationKeyHeader]= oAuth.getApplicationKey();
+  };
+
+
+  this._getAnonymousHttpHeaders = function (headers) {
+    if (oAuth.getAnonymousAccessToken() !== null && typeof oAuth.getAnonymousAccessToken() == "string") {
+      headers[AuthorizationHeader] = "Bearer " + oAuth.getAnonymousAccessToken();
     }
     headers[ApplicationKeyHeader] = oAuth.getApplicationKey();
   };
+
+
 }
 
 
@@ -1383,7 +1559,7 @@ function User(user) {
     if (["id", "username", "firstName", "lastName", "email"].indexOf(key) < 0) {
       _properties[key] = user[key];
     }
-    if (_properties.links != null) {
+    if(_properties.links != null) {
       delete _properties.links;
     }
   }
@@ -1393,7 +1569,7 @@ function User(user) {
    *
    * @return Current user's name
    */
-  this.getId = function() {
+  this.getId = function(){
     return _id;
   };
 
@@ -1403,7 +1579,7 @@ function User(user) {
    *
    * @return Current user's name
    */
-  this.getUsername = function() {
+  this.getUsername = function(){
     return userName;
   };
   /**
@@ -1411,7 +1587,7 @@ function User(user) {
    *
    * @param username Properties associated with current user
    */
-  this.setUsername = function(username) {
+  this.setUsername = function(username){
     userName = username;
   };
 
@@ -1420,8 +1596,8 @@ function User(user) {
    *
    * @return properties {} of current user
    */
-  this.getProperties = function() {
-    return _properties;
+  this.getProperties  = function(){
+      return _properties;
   };
   /**
    * Sets properties for current user.
@@ -1430,23 +1606,22 @@ function User(user) {
    * @param value {String} the value of the key in the properties object
    *
    */
-  this.setProperties = function(key, value) {
+  this.setProperties = function(key,value){
     var obj = this.getProperties(); //outside (non-recursive) call, use "data" as our base object
     var ka = key.split(/\./); //split the key by the dots
     if (ka.length < 2) {
       obj[ka[0]] = value; //only one part (no dots) in key, just set value
-    }
-    else {
+    } else {
       if (!obj[ka[0]]) obj[ka[0]] = {}; //create our "new" base obj if it doesn't exist
       obj = obj[ka.shift()]; //remove the new "base" obj from string array, and hold actual object for recursive call
-      this.setProperties(ka.join("."), value); //join the remaining parts back up with dots, and recursively set data on our new "base" obj
+      this.setProperties(ka.join("."),value); //join the remaining parts back up with dots, and recursively set data on our new "base" obj
     }
   };
 
   /**
    * Returns first name for current user.
    */
-  this.getFirstName = function() {
+  this.getFirstName = function(){
     return firstName;
   };
 
@@ -1455,14 +1630,14 @@ function User(user) {
    *
    * @param firstname Properties associated with current user
    */
-  this.setFirstName = function(firstname) {
+  this.setFirstName = function(firstname){
     firstName = firstname;
   };
 
   /**
    * Returns last name for current user.
    */
-  this.getLastName = function() {
+  this.getLastName = function(){
     return lastName;
   };
 
@@ -1471,14 +1646,14 @@ function User(user) {
    *
    * @param lastname Properties associated with current user
    */
-  this.setLastName = function(lastname) {
+  this.setLastName = function(lastname){
     lastName = lastname;
   };
 
   /**
    * Returns email address for current user.
    */
-  this.getEmail = function() {
+  this.getEmail = function(){
     return email;
   };
 
@@ -1487,11 +1662,11 @@ function User(user) {
    *
    * @return email properties of current user
    */
-  this.setEmail = function(Email) {
+  this.setEmail = function(Email){
     email = Email;
   };
 
-  //<!-- TODO: More protected way to edit password of User Object-->
+  // TODO: More protected way to edit password of User Object
   /**
    * Sets password for current user.
    *
@@ -1545,10 +1720,10 @@ function Diagnostics(backend) {
    * Returns the session id, or process id of that Diagnostic event.
    * @return process id for the Diagnostic session.
    */
-  this.getSessionId = function() {
+  this.getSessionId = function(){
     return this._sessionId;
   };
-}
+  }
 
 (function() {
   var g = typeof window != 'undefined' ? window : global;
@@ -1565,7 +1740,7 @@ function Diagnostics(backend) {
  * @constructor
  */
 
-function CustomCode(backend) {
+function CustomCode(backend){
 
   /**
    * The [MobileBackend]{@link MobileBackend} object that this Custom Code instance belongs to.
@@ -1576,23 +1751,112 @@ function CustomCode(backend) {
 
   var customCode = this;
 
-  function checkParameters(params, comparison) {
-    return params && params != undefined && typeof params == comparison;
+  function checkParameters(params,comparison){
+    return isJSON(params) && params && params != undefined && typeof params == comparison ;
   }
+
+  function isJSON (params) {
+    if (typeof params != 'string')
+      params = JSON.stringify(params);
+
+    try {
+      JSON.parse(params);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // /**
+  //  * Callback invoked after downloading application configuration.
+  //  * @callback CustomCode~successCallback
+  //  * @param success {String} The HTTP payload from the server, if available, or a success message.
+  //  * @example : "SUCCESS"
+  //  */
+  //
+  // /**
+  //  * Callback invoked on error while downloading application configuration.
+  //  * @callback CustomCode~errorCallback
+  //  * @param error {Object} The HTTP payload from the server, if available, or an error message.
+  //  * @example : "FAILURE"
+  //  *
+  //  */
+  //
+  // /**
+  //  * Allows the user to call custom Code defined on the UI and assigned to the backend defined by the user.
+  //  * @param path {String} The path of the endpoint following the platform prefix ie {BaseUrl}/mobile/platform/{path to custom code endpoint}.
+  //  * @param data {Object} Data that is pasted into the call on the server if methods are POST and PUT. Only accepts an JSON object and/or JavaScript array.
+  //  * @param successCallback {CustomCode~successCallback} Optional callback invoked on success returns the status code, and the data from the request.
+  //  * @param errorCallback {CustomCode~errorCallback} Optional callback invoked on failure and returns the status code, and the data from the request.
+  //  * @example path: "TasksAPI/tasks/100"
+  //  * @example data: {
+  //       "name": "Complete reports",
+  //       "completed": false,
+  //       "priority": "high",
+  //       "dueDate": "2015-03-15T17:00:00Z"
+  //     }
+  //  * These methods must be defined in the API created on the UI by the user for this methods to function. This API only allows "POST" as HTTP function.
+  //  * If you wish to use any of the other HTTP function, you must use mcs.MobileBackend.invokeCustomCodeJSONRequest();
+  //  * @example <caption>Example usage of mcs.MobileBackend.invokeCustomCodeStoreData()</caption>
+  //  * mcs.MobileBackend.CustomCode.invokeCustomCodeStoreData("TaskApi1/tasks/100" ,  {
+  //       "name": "Complete reports",
+  //       "completed": false,
+  //       "priority": "high",
+  //       "dueDate": "2015-03-15T17:00:00Z"
+  //     },
+  //  * function(success){
+  //  * },
+  //  * function(failure){
+  //  * });
+  //  * // returns a STRING of "SUCCESS" on successCallback function from the data parameter.
+  //  *
+  //  */
+  // this.invokeCustomCodeStoreData = function(path,data,successCallback,errorCallback){
+  //
+  //   var headers = customCode.backend.getHttpHeaders();
+  //   headers["Content-Type"] = 'application/json';
+  //
+  //   var customData = JSON.stringify(data);
+  //   headers["Content-Length"] = customData.length;
+  //
+  //   mcs.MobileBackendManager.platform.invokeService({
+  //     method: "POST",
+  //     url: customCode.backend.getCustomCodeUrl(path),
+  //     headers: headers,
+  //     body: customData,
+  //
+  //     success: function () {
+  //       if (successCallback != null) {
+  //         successCallback("SUCCESS");
+  //       }
+  //     },
+  //     error: function () {
+  //       if (errorCallback != null) {
+  //         errorCallback("FAILURE");
+  //       }
+  //     }
+  //   });
+  // };
+
 
   /**
    * Allows the user to call custom Code defined on the UI and assigned to the backend defined by the user.
    * @param path {String} The path of the endpoint following the platform prefix ie {BaseUrl}/mobile/platform/{path to custom code endpoint}.
    * @param method {String} HTTP method that is invoked.
-   * @param data {Object} Data that is pasted into the call on the server if methods are POST and PUT. Preferably an JSON object.
-   * @param successCallback {callCustomCode~successCallback} Optional callback invoked on success returns the status code, the headers, and the data from the request.
-   * @param errorCallback {callCustomCode~errorCallback} Optional callback invoked on failure and returns the status code, the headers, and the data from the request.
+   * @param data {Object} Data that is pasted into the call on the server if methods are POST and PUT. Only accepts an JSON object and/or JavaScript array.
+   * @param successCallback {CustomCode~successCallback} Optional callback invoked on success returns the status code, and the data from the request.
+   * @param errorCallback {CustomCode~errorCallback} Optional callback invoked on failure and returns the status code, and the data from the request.
    * @example path: "TasksAPI/tasks/100"
    * @example method: "GET,POST,PUT,DELETE,etc"
-   * @example data: {}
+   * @example data:  {
+        "name": "Complete reports",
+        "completed": false,
+        "priority": "high",
+        "dueDate": "2015-03-15T17:00:00Z"
+      }
    * These methods must be defined in the API created on the UI by the user for this methods to function.
-   * @example <caption>Example usage of mcs.MobileBackend.callCustomCode()</caption>
-   * mcs.MobileBackend.CustomCode.callCustomCode("TaskApi1/tasks/100 , "GET" , null,
+   * @example <caption>Example usage of mcs.MobileBackend.invokeCustomCodeJSONRequest()</caption>
+   * mcs.MobileBackend.CustomCode.invokeCustomCodeJSONRequest("TaskApi1/tasks/100" , "GET" , null,
    * function(statusCode, data){
    * },
    * function(statusCode, data){
@@ -1605,31 +1869,33 @@ function CustomCode(backend) {
    * "dueDate": "2015-03-15T17:00:00Z"
    * }
    */
-  this.callCustomCode = function(path, method, data, successCallback, errorCallback) {
+  this.invokeCustomCodeJSONRequest = function(path,method,data,successCallback,errorCallback){
 
-    if (checkParameters(data, 'object')) {
-      var customData = JSON.stringify(data);
-    }
+    var headers = customCode.backend.getHttpHeaders();
+    headers["Content-Type"] = 'application/json';
+
+    var customData = JSON.stringify(data);
+    headers["Content-Length"] = customData.length;
 
     mcs.MobileBackendManager.platform.invokeService({
       method: method,
       url: customCode.backend.getCustomCodeUrl(path),
-      headers: customCode.backend.getHttpHeaders(),
+      headers: headers,
       body: customData,
 
-      success: function(response, data) {
+      success: function (response,data) {
         if (successCallback != null) {
-          successCallback(response.status, data);
+          successCallback(response.status,data);
         }
       },
       error: function(statusCode, data) {
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }
     });
   };
-}
+  }
 
 
 (function() {
@@ -1652,7 +1918,10 @@ function MobileBackend(name, config) {
   var platformPath = 'mobile/platform';
   var customCodePath = 'mobile/custom';
 
+  var AuthenticationType = null;
+
   var backend = this;
+
 
   /**
    * The name of the MobileBackend as read from the configuration.
@@ -1662,17 +1931,42 @@ function MobileBackend(name, config) {
 
   this._config = config;
 
+
+
+  /**
+   * Returns anonymous token for the current backend.
+   */
+  this.getAuthenticationTypeVariable = function(){
+    return AuthenticationType;
+  };
+
+  /**
+   * Sets Authentication variable for MobileBackend.
+   * @param type
+   */
+  this.setAuthenticationTypeVariable = function(type){
+    AuthenticationType = type;
+  };
+
+
   /**
    * Constructs a full url including the prefix for platform API REST endpoints given a path.
    * @param path {String} The path of the endpoint following the platform prefix ie {BaseUrl}/mobile/platform.
    * @returns {String} The full url.
    */
-  this.getPlatformUrl = function(path) {
-    var url = mcs._Utils.validateConfiguration(this._config.baseUrl) + "/" + platformPath;
-    if (!strEndsWith(path, "/")) {
-      url += "/";
+  this.getPlatformUrl = function (path) {
+
+    var url = this._config.baseUrl;
+
+    // dev instance hack, replace port ends with 1 with 7777
+    if(backend.getAuthenticationTypeVariable() == "ssoAuth" && strEndsWith(this._config.baseUrl,"1")){
+      url = url.substring(0, url.length - 4) + "7777";
     }
 
+    url = mcs._Utils.validateConfiguration(url) + "/" + platformPath;
+    if (!strEndsWith(url, "/")) {
+      url += "/";
+    }
     return url + path;
   };
 
@@ -1681,9 +1975,9 @@ function MobileBackend(name, config) {
    * @param path {String} The path of the endpoint following the custom code prefix ie {BaseUrl}/mobile/custom.
    * @returns {String} The full url.
    */
-  this.getCustomCodeUrl = function(path) {
+  this.getCustomCodeUrl = function (path) {
     var url = mcs._Utils.validateConfiguration(this._config.baseUrl) + "/" + customCodePath;
-    if (!strEndsWith(path, "/")) {
+    if (!strEndsWith(path,"/")) {
       url += "/";
     }
 
@@ -1694,20 +1988,25 @@ function MobileBackend(name, config) {
    * Constructs a full url including the prefix for oAuth token API REST endpoints given a path.
    * @returns {String} The full url for oAuth token endpoint.
    */
-  this.getOAuthTokenUrl = function() {
+  this.getOAuthTokenUrl = function () {
     var tokenUri = mcs._Utils.validateConfiguration(this._config.authorization.oAuth.tokenEndpoint);
-    if (!strEndsWith(tokenUri, "/")) {
+    if(!strEndsWith(tokenUri,"/")) {
       tokenUri += "/";
     }
     return tokenUri;
   };
 
+
   /**
-   * Constructs a full url including the prefix for SSOAuth token API REST endpoints given a path.
-   * @returns {String} The full url for SSOAuth token endpoint.
+   * Constructs a full url including the prefix for ssoAuth token API REST endpoints given a path.
+   * @returns {String} The full url for oAuth token endpoint.
    */
-  this.getSSOEndpointUrl = function() {
-    return mcs._Utils.validateConfiguration(this._config.authorization.ssoAuth.tokenEndpoint);
+  this.getSSOAuthTokenUrl = function () {
+    var tokenUri = mcs._Utils.validateConfiguration(this._config.authorization.ssoAuth.tokenEndpoint);
+    if(!strEndsWith(tokenUri,"/")) {
+      tokenUri += "/"
+    }
+    return tokenUri;
   };
 
   /**
@@ -1716,13 +2015,19 @@ function MobileBackend(name, config) {
    * @returns {Object} The headers parameter that is passed in and if not provided, a new object with the populated
    * headers as properties of that object.
    */
-  this.getHttpHeaders = function(headers) {
+  this.getHttpHeaders = function (headers) {
     if (headers == null) {
       headers = {};
     }
 
-    this.Authorization._getHttpHeaders(headers);
     this.Diagnostics._getHttpHeaders(headers);
+
+    if (this.Authorization.getIsAuthorized() !== false && this.Authorization.getIsAnonymous() !== false) {
+      this.Authorization._getAnonymousHttpHeaders(headers);
+    }
+    else {
+      this.Authorization._getHttpHeaders(headers);
+    }
 
     return headers;
   };
@@ -1756,30 +2061,34 @@ function MobileBackend(name, config) {
         " is defined in MobileBackendManager.config " + "\n" +
         "check MobileBackendManager.config in authorization object for the following objects:" + "\n" +
         mcs.AuthenticationTypeBasic + "\n" +
-        mcs.AuthenticationTypeOAuth + "\n" +
-        mcs.AuthenticationTypeFacebook + "\n" +
+        mcs.AuthenticationTypeOAuth + "\n"+
+        mcs.AuthenticationTypeFacebook + "\n"+
         mcs.AuthenticationTypeSSO);
     }
 
-    if (this.Authorization != null && this.Authorization.isAuthorized) {
+    if (this.Authorization !== null && this.Authorization.getIsAuthorized() !== false) {
       this.Authorization.logout();
     }
 
     if (authType == mcs.AuthenticationTypeBasic) {
       this.Authorization = new mcs._BasicAuthorization(this._config.authorization.basicAuth, this, this._config.applicationKey);
-      mcs._Logger.log(mcs.logLevelInfo, "Your Authentication type: " + type);
+      mcs._Logger.log(mcs.logLevelInfo,  "Your Authentication type: " + authType);
+      backend.setAuthenticationTypeVariable(authType);
     }
     else if (authType == mcs.AuthenticationTypeOAuth) {
-      this.Authorization = new mcs._OAuthAuthorization(this._config.authorization.oAuth, this, this._config.applicationKey);
-      mcs._Logger.log(mcs.logLevelInfo, "Your Authentication type: " + type);
+      this.Authorization = new mcs._OAuthAuthorization(this._config.authorization.oAuth, this,this._config.applicationKey);
+      mcs._Logger.log(mcs.logLevelInfo,  "Your Authentication type: " + authType);
+      backend.setAuthenticationTypeVariable(authType);
     }
-    else if (authType == mcs.AuthenticationTypeFacebook) {
-      this.Authorization = new mcs._FacebookAuthorization(this._config.authorization.facebookAuth, this._config.authorization.basicAuth.backendId, this._config.authorization.basicAuth.anonymousToken, this, this._config.applicationKey);
-      mcs._Logger.log(mcs.logLevelInfo, "Your Authentication type: " + type);
+    else if(authType == mcs.AuthenticationTypeFacebook){
+      this.Authorization = new mcs._FacebookAuthorization(this._config.authorization.facebookAuth,this,this._config.applicationKey);
+      mcs._Logger.log(mcs.logLevelInfo,  "Your Authentication type: " + authType);
+      backend.setAuthenticationTypeVariable(authType);
     }
-    else if (authType == mcs.AuthenticationTypeSSO) {
-      this.Authorization = new mcs._SSOAuthorization(this._config.authorization.ssoAuth, this._config.authorization.oAuth.clientId, this, this._config.applicationKey);
-      mcs._Logger.log(mcs.logLevelInfo, "Your Authentication type: " + type);
+    else if(authType == mcs.AuthenticationTypeSSO){
+      this.Authorization = new mcs._SSOAuthorization(this._config.authorization.ssoAuth,this,this._config.applicationKey);
+      mcs._Logger.log(mcs.logLevelInfo, "Your Authentication type: " + authType);
+      backend.setAuthenticationTypeVariable(authType);
     }
     return this.Authorization;
   };
@@ -1789,7 +2098,7 @@ function MobileBackend(name, config) {
    * Returns the Authorization object that enables end-end authorization capabilities.
    * @return {Authorization} Object
    */
-  this.getAuthenticationType = function() {
+  this.getAuthenticationType = function(){
     return this.Authorization;
   };
 
@@ -1798,7 +2107,7 @@ function MobileBackend(name, config) {
    * @return {boolean}
    */
   function strEndsWith(str, suffix) {
-    return str.match(suffix + "$") == suffix;
+    return str.match(suffix+"$")==suffix;
   }
 
   /**
@@ -1836,7 +2145,7 @@ function MobileBackend(name, config) {
    * Returns the Notifications object that provides notification capabilities.
    * @type {Notifications}
    */
-  if (mcs._Notifications) {
+  if(mcs._Notifications){
     this.Notifications = new mcs._Notifications(this);
   }
 
@@ -1850,6 +2159,7 @@ function MobileBackend(name, config) {
   /**
    * Callback invoked after downloading application configuration.
    * @callback MobileBackend~appConfigSuccessCallback
+   * @param statusCode {Number} Any HTTP status code returned from the server, if available.
    * @param appConfig {Object} The downloaded application configuration object.
    */
 
@@ -1868,7 +2178,7 @@ function MobileBackend(name, config) {
   this.loadAppConfig = function(successCallback, errorCallback) {
 
     if (!backend.Authorization.isAuthorized) {
-      backend.Authorization.authenticateAnonymous(function() {
+      backend.Authorization.authenticateAnonymous(function () {
           backend._loadAppConfig(successCallback, errorCallback);
         },
         errorCallback
@@ -1889,19 +2199,19 @@ function MobileBackend(name, config) {
       url: backend.getPlatformUrl("appconfig/client"),
       headers: headers,
       success: function(response, data) {
-        mcs._Logger.log(mcs.logLevelInfo, "New WebStarterApp config downloaded with status code: " + response.status);
+        mcs._Logger.log(mcs.logLevelInfo,  "New WebStarterApp config downloaded with status code: " + response.status);
 
         backend.AppConfig = data;
 
-        if (successCallback != null) {
-          successCallback(response.status, backend.AppConfig);
+        if(successCallback != null) {
+          successCallback(response.status,backend.AppConfig);
         }
       },
       error: function(statusCode, data) {
-        mcs._Logger.log(mcs.logLevelError, "App config download failed! with status code: " + statusCode);
+        mcs._Logger.log(mcs.logLevelError,  "App config download failed! with status code: " + statusCode);
 
-        if (errorCallback != null) {
-          errorCallback(statusCode, data);
+        if(errorCallback != null) {
+          errorCallback(statusCode,data);
         }
       }
     });
@@ -1943,15 +2253,13 @@ mcs.MobileBackendManager = mcs.MobileBackendManager || {};
  */
 mcs.MobileBackendManager.platform = new mcs.BrowserPlatform();
 
-mcs.MobileBackendManager._config = {
-  "mobileBackends": {}
-};
+mcs.MobileBackendManager._config = {"mobileBackends":{}};
 mcs.MobileBackendManager._mobileBackends = {};
 
 
 mcs.MobileBackendManager.setConfig = function(config) {
 
-  if (config.logLevel != null) {
+  if(config.logLevel != null) {
     mcs._Logger.logLevel = config.logLevel;
   }
 
@@ -1960,28 +2268,28 @@ mcs.MobileBackendManager.setConfig = function(config) {
 };
 
 /**
- * Sets Platform for application.
+ * Sets Platform for Cordova applications ONLY.
  * Sets the configuration for the application. The configuration should be set once before any MobileBackend is accessed.
  * @param config
  * Returns a MobileBackend object with the specified name.
  * @param name {String} The name of the MobileBackend.
  * @returns {MobileBackend} A MobileBackend object.
  */
-mcs.MobileBackendManager.returnMobileBackend = function(name, config) {
+mcs.MobileBackendManager.returnMobileBackend = function(name,config){
 
-  if (mcs.MobileBackendManager.platform.isCordova == false) {
+  if(mcs.MobileBackendManager.platform.isCordova == false) {
     mcs.MobileBackendManager.platform = new mcs.CordovaPlatform();
   }
-  else {
+  else{
     mcs.MobileBackendManager.platform = new mcs.BrowserPlatform();
   }
   mcs._Logger.log(mcs.logLevelInfo, "The Cordova platform is set!");
 
 
-  mcs.MobileBackendManager.setConfig(config);
-  mcs._Logger.log(mcs.logLevelInfo, "The config has been set and now it has the backend defined in the config " +
-    "as the point of entry for the " +
-    "rest of the functions you need to call.");
+    mcs.MobileBackendManager.setConfig(config);
+    mcs._Logger.log(mcs.logLevelInfo, "The config has been set and now it has the backend defined in the config " +
+      "as the point of entry for the " +
+      "rest of the functions you need to call.");
 
   return mcs.MobileBackendManager.getMobileBackend(name);
 
@@ -2002,7 +2310,7 @@ mcs.MobileBackendManager.getMobileBackend = function(name) {
     }
   }
 
-  mcs._Logger.log(mcs.logLevelError, "No mobile backend called " + name + " is defined in MobileBackendManager.config");
+  mcs._Logger.log(mcs.logLevelError,  "No mobile backend called " + name + " is defined in MobileBackendManager.config");
   return null;
 };
 
@@ -2014,8 +2322,8 @@ mcs.MobileBackendManager.getMobileBackend = function(name) {
  */
 function StorageObject(storageCollection, json) {
 
-  var _storageCollection = storageCollection;
-  var _payload = null;
+   var _storageCollection = storageCollection;
+   var _payload = null;
 
   if (json != null) {
     /**
@@ -2074,7 +2382,7 @@ function StorageObject(storageCollection, json) {
    *
    * @return Current Storage object payload.
    */
-  this.getPayload = function() {
+  this.getPayload = function(){
     return _payload;
   };
 
@@ -2084,7 +2392,7 @@ function StorageObject(storageCollection, json) {
    *
    * @param payload The payload to be associated with Storage Object.
    */
-  this.setPayload = function(payload) {
+  this.setPayload =function(payload){
     _payload = payload;
   };
 
@@ -2093,7 +2401,7 @@ function StorageObject(storageCollection, json) {
    *
    * @return Current Storage Collection.
    */
-  this.getstorageCollection = function() {
+  this.getstorageCollection = function(){
     return _storageCollection;
   };
 
@@ -2102,7 +2410,7 @@ function StorageObject(storageCollection, json) {
    *
    * @return Current Storage Object.
    */
-  this.getStorage = function() {
+  this.getStorage = function(){
     return this.getstorageCollection()._storage;
   };
 
@@ -2118,16 +2426,16 @@ function StorageObject(storageCollection, json) {
     _payload = payload;
     this.contentType = contentType;
 
-    if (this.contentType == 'text/plain') {
-      if (typeof _payload == "string") {
+    if(this.contentType == 'text/plain'){
+      if(typeof _payload == "string") {
         _payload = payload;
       }
     }
-    else if (this.contentType == 'application/json') {
-      if (typeof _payload == "string") {
+    else if(this.contentType == 'application/json'){
+      if(typeof _payload == "string"){
         _payload = payload;
       }
-      else if (typeof _payload == "object") {
+      else if(typeof _payload == "object"){
         _payload = JSON.stringify(payload);
       }
     }
@@ -2139,7 +2447,7 @@ function StorageObject(storageCollection, json) {
    * @example name: "JSFile中国人.txt"
    * @returns The object's name in UTC-8 ASCII format.
    */
-  this.setDisplayName = function(name) {
+  this.setDisplayName = function(name){
     this.name = name;
   };
 
@@ -2148,7 +2456,7 @@ function StorageObject(storageCollection, json) {
    *
    * @returns String object's name decoded if encoded into the MobileBackend.
    */
-  this.getDisplayName = function() {
+  this.getDisplayName = function(){
     return this.name;
   };
 
@@ -2174,8 +2482,8 @@ function StorageObject(storageCollection, json) {
    * @param errorCallback {StorageObject~errorCallback} Callback invoked on error.
    * @param objectType responseType for the XMLHttpRequest Object.
    */
-  this.readPayload = function(successCallback, errorCallback, objectType) {
-    if (this.getPayload() == null) {
+  this.readPayload = function(successCallback, errorCallback,objectType) {
+    if(this.getPayload() == null) {
 
       var storageObject = this;
 
@@ -2184,7 +2492,7 @@ function StorageObject(storageCollection, json) {
 
       var url = "storage/collections/" + storageObject.getstorageCollection().id + "/objects/" + this.id;
 
-      if (storageObject.getstorageCollection().userId != null && storageObject.getstorageCollection()._userIsolated) {
+      if(storageObject.getstorageCollection().userId != null && storageObject.getstorageCollection()._userIsolated){
         url += "?user=" + storageObject.getstorageCollection().userId;
       }
 
@@ -2192,9 +2500,9 @@ function StorageObject(storageCollection, json) {
         method: 'GET',
         url: storageObject.getstorageCollection().getStorage().backend.getPlatformUrl(url),
         headers: headers,
-        responseType: objectType,
+        responseType: objectType || "blob",
 
-        success: function(response, data) {
+        success: function (response,data) {
           invokeServiceSuccess(response, data, storageObject, successCallback);
         },
         error: function(statusCode, data) {
@@ -2204,8 +2512,8 @@ function StorageObject(storageCollection, json) {
     }
   };
 
-  function invokeServiceSuccess(response, data, storageObject, successCallback) {
-    if (successCallback != null) {
+  function invokeServiceSuccess (response, data,storageObject, successCallback) {
+    if(successCallback != null){
       storageObject.setPayload(data);
       storageObject.name = decodeURI(response.getResponseHeader("Oracle-Mobile-Name"));
       storageObject._eTag = response.getResponseHeader("ETag");
@@ -2219,8 +2527,8 @@ function StorageObject(storageCollection, json) {
     }
   }
 
-  function invokeServiceError(statusCode, data, errorCallback) {
-    if (errorCallback != null) {
+  function invokeServiceError(statusCode,data,errorCallback){
+    if(errorCallback != null) {
       errorCallback(statusCode, data);
     }
   }
@@ -2253,7 +2561,7 @@ function StorageCollection(data, userId, storage) {
    *
    * @return Storage Object for current Storage Collection.
    */
-  this.getStorage = function() {
+  this.getStorage = function(){
     return _storage;
   };
 
@@ -2262,8 +2570,8 @@ function StorageCollection(data, userId, storage) {
    *
    * @return user id for current Storage Collection.
    */
-  this.getUserId = function() {
-    return _userId;
+  this.getUserId = function(){
+    return _userId ;
   };
 
   /**
@@ -2271,7 +2579,7 @@ function StorageCollection(data, userId, storage) {
    *
    * @return Storage Object data for current Storage Collection.
    */
-  this.getData = function() {
+  this.getData = function(){
     return _data;
   };
 
@@ -2319,16 +2627,16 @@ function StorageCollection(data, userId, storage) {
 
     var url = "storage/collections/" + storageCollection.id + "/objects";
 
-    if (offset != null) {
+    if(offset != null) {
       url += url.indexOf("?") == -1 ? "?" : "&";
       url += "offset=" + offset;
     }
 
-    if (limit != null) {
+    if(limit != null) {
       url += url.indexOf("?") == -1 ? "?" : "&";
       url += "limit=" + limit;
     }
-    if (storageCollection.getUserId() != null && storageCollection._userIsolated) {
+    if(storageCollection.getUserId() != null && storageCollection._userIsolated){
       url += url.indexOf("?") == -1 ? "?" : "&";
       url += "user=" + storageCollection.getUserId();
     }
@@ -2339,18 +2647,18 @@ function StorageCollection(data, userId, storage) {
       headers: headers,
 
       success: function(response, data) {
-        if (successCallback != null) {
+        if(successCallback != null) {
 
           var objects = [];
           var objectsJson = data;
-          for (var i = 0; i < objectsJson.items.length; i++) {
+          for(var i=0; i<objectsJson.items.length; i++) {
             objects[objects.length] = new mcs.StorageObject(storageCollection, objectsJson.items[i]);
           }
           successCallback(objects);
         }
       },
       error: function(statusCode, data) {
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }
@@ -2414,19 +2722,19 @@ function StorageCollection(data, userId, storage) {
    * // returns object as text on successCallback function from the data parameter.
    */
 
-  this.getObject = function(id, successCallback, errorCallback, objectType) {
+  this.getObject = function(id, successCallback, errorCallback,objectType) {
     var storageObject = new mcs.StorageObject(this);
     storageObject.id = id;
 
     storageObject.readPayload(function(statusCode) {
-      if (successCallback != null) {
+      if(successCallback != null) {
         successCallback(storageObject);
       }
     }, function(statusCode, data) {
-      if (errorCallback != null) {
+      if(errorCallback != null) {
         errorCallback(statusCode, data);
       }
-    }, objectType);
+    },objectType);
   };
 
   /**
@@ -2471,31 +2779,31 @@ function StorageCollection(data, userId, storage) {
 
 
     var url = "storage/collections/" + storageCollection.id + "/objects";
-    if (!isPost) {
+    if(!isPost) {
       url += "/" + storageObject.id;
 
-      if (storageObject._eTag != null) {
+      if(storageObject._eTag != null) {
         headers["If-Match"] = storageObject._eTag;
       }
     }
 
-    if (storageCollection._userIsolated && storageCollection.getUserId() != null) {
+    if(storageCollection._userIsolated && storageCollection.getUserId() != null) {
       url += "?user=" + storageCollection.getUserId();
     }
 
     mcs.MobileBackendManager.platform.invokeService({
-      method: isPost ? 'POST' : 'PUT',
+      method: isPost? 'POST' : 'PUT',
       url: storageCollection.getStorage().backend.getPlatformUrl(url),
       headers: headers,
       body: storageObject.getPayload(),
       success: function(response, data) {
-        if (successCallback != null) {
-          var object = new mcs.StorageObject(storageCollection, data);
-          successCallback(response.status, object);
+        if(successCallback != null) {
+          var object = new mcs.StorageObject(storageCollection,data);
+          successCallback(response.status,object);
         }
       },
       error: function(statusCode, data) {
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }
@@ -2518,7 +2826,7 @@ function StorageCollection(data, userId, storage) {
     var headers = storageCollection.getStorage().backend.getHttpHeaders();
 
     var url = "storage/collections/" + storageCollection.id + "/objects/" + id;
-    if (storageCollection._userIsolated && storageCollection.getUserId() != null) {
+    if(storageCollection._userIsolated && storageCollection.getUserId() != null) {
       url += "?user=" + storageCollection.getUserId();
     }
 
@@ -2527,12 +2835,12 @@ function StorageCollection(data, userId, storage) {
       url: storageCollection.getStorage().backend.getPlatformUrl(url),
       headers: headers,
       success: function(response, data) {
-        if (successCallback != null) {
+        if(successCallback != null) {
           successCallback(response.status, data);
         }
       },
       error: function(statusCode, data) {
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }
@@ -2552,7 +2860,7 @@ function StorageCollection(data, userId, storage) {
     headers["If-Match"] = "*";
 
     var url = "storage/collections/" + storageCollection.id + "/objects/" + id;
-    if (storageCollection._userIsolated && storageCollection.getUserId() != null) {
+    if(storageCollection._userIsolated && storageCollection.getUserId() != null) {
       url += "?user=" + storageCollection.getUserId();
     }
 
@@ -2561,12 +2869,12 @@ function StorageCollection(data, userId, storage) {
       url: storageCollection.getStorage().backend.getPlatformUrl(url),
       headers: headers,
       success: function(response, data) {
-        if (successCallback != null) {
+        if(successCallback != null) {
           successCallback(response.status, data);
         }
       },
       error: function(statusCode, data) {
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }
@@ -2581,7 +2889,7 @@ function StorageCollection(data, userId, storage) {
   g.mcs._StorageCollection = StorageCollection;
 }());
 
-//"use strict";
+"use strict";
 
 /**
  * Class that provides cloud based storage capabilities. Callers should use
@@ -2634,12 +2942,12 @@ function Storage(backend) {
       headers: headers,
 
       success: function(response, data) {
-        if (successCallback != null) {
+        if(successCallback != null) {
           successCallback(new mcs._StorageCollection(data, mcs._Utils.validateConfiguration(userId), storage));
         }
       },
       error: function(statusCode, data) {
-        if (errorCallback != null) {
+        if(errorCallback != null) {
           errorCallback(statusCode, data);
         }
       }

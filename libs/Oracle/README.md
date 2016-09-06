@@ -80,10 +80,10 @@ http://docs.oracle.com/cloud/latest/mobilecs_gs/MCSUA/GUID-271BAA8A-738D-4F90-96
 * MCS Tutorial
 http://www.oracle.com/webfolder/technetwork/tutorials/cloud/ocms/OCMS_MBE_OBE_tutorial.html
 
-* Oracle Mobile Cloud Service JavaScript SDK, Release: 16.1.3.1, E69833-02
+* Oracle Mobile Cloud Service JavaScript documentation
 https://docs.oracle.com/cloud/latest/mobilecs_gs/MCSSJ/index.html
 
-* Using Oracle Mobile Cloud Service:
+* Using Oracle Mobile Cloud Service / MCS User Guide:
 https://docs.oracle.com/cloud/latest/mobilecs_gs/MCSUA/GUID-7DF6C234-8DFE-4143-B138-FA4EB1EC9958.htm#MCSUA-GUID-7DF6C234-8DFE-4143-B138-FA4EB1EC9958
 
 * Hybrid Mobile Apps: Using the Mobile Cloud Service JavaScript SDK with Oracle JET:

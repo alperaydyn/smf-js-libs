@@ -17,13 +17,16 @@ var mcs_config = {
           "tokenEndpoint": "YOUR_TOKEN_ENDPOINT"
         },
         "facebookAuth":{
-          "facebookAppId": "YOUR_FACEBOOK_APP_ID"
+          "facebookAppId": "YOUR_FACEBOOK_APP_ID",
+          "backendId": "YOUR_BACKEND_ID",
+          "anonymousToken": "YOUR_BACKEND_ANONYMOUS_TOKEN"
         },
         "ssoAuth":{
-          "tokenEndpoint": "YOUR_SSO_TOKEN_ENDPOINT"
+          "clientId": "YOUR_CLIENT_ID",
+          "clientSecret": "YOUR_ClIENT_SECRET",
+          "tokenEndpoint": "YOUR_TOKEN_ENDPOINT"
         }
       }
     }
   }
 };
-
