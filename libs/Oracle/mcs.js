@@ -173,7 +173,7 @@ mcs._Utils.hasValue = function(obj, key, value) {
   return obj.hasOwnProperty(key) && obj[key] === value;
 };
 
-"use strict";
+//"use strict";
 
 /** @ignore */
 
@@ -2889,7 +2889,7 @@ function StorageCollection(data, userId, storage) {
   g.mcs._StorageCollection = StorageCollection;
 }());
 
-"use strict";
+//"use strict";
 
 /**
  * Class that provides cloud based storage capabilities. Callers should use
