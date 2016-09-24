@@ -36,7 +36,7 @@ In this version we've implemented these functions;
 
 ## How to use?
 
-You need to include `libs/Akbbank/akbank.js` in order to consume Akbank APIs. Don't forget to create your Akbank application on Akbank Api Portal and get `apikey`
+You need to include `libs/Akbank/akbank.js` in order to consume Akbank APIs. Don't forget to create your Akbank application on Akbank Api Portal and get `apikey`
 
 
 ```javascript
