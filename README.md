@@ -6,7 +6,7 @@ Smartface framework does not contain the DOM layer unlike browsers. For this rea
 
 ## How to use?
 
-As a convention, the libraries are added under the `scripts/libs` folder.
+As a convention, the libraries are added under the [`scripts/libs`](https://github.com/smartface/smf-js-libs/tree/master/libs/) folder.
 
 
 ### `include` function
@@ -35,7 +35,7 @@ Before adding or extending a library, first step requires checking which feature
 Examples for are placed under relative folder of `examples` folder. In order to run the examples place the files and use some of the libraries provided as instructed.
 
 ## SMFAjax
-`include("libs/Smartface/SMFAjax.js");` is to use the library. This library internaly uses `polyfills` and `formUrlEncoded` libraries to be placed under same folder `libs/Smartface/`.
+`include("libs/Smartface/SMFAjax.js");` is to use the library. This library internaly uses `polyfills` and `formUrlEncoded` libraries to be placed under same folder [`libs/Smartface/`](https://github.com/smartface/smf-js-libs/tree/master/libs/Smartface/).
 You can either review code blocks, copy paste them or `include` them from the places where you are putting them. In order to use examples you can use the following web server with the code given below:
 ```javascript
 var MyApp = {
@@ -92,10 +92,10 @@ make sure that current directory is `~/workspace/scripts` while using **npm**
 
 
 ## Oracle
-Oracle libray readme file is located under `libs/Oracle/README.md`
+Oracle libray readme file is located under [`libs/Oracle/README.md`](https://github.com/smartface/smf-js-libs/tree/master/libs/Oracle)
 
 ## Akbank
-Akbank libray readme file is located under `libs/Akbank/README.md`
+Akbank libray readme file is located under [`libs/Akbank/README.md`](https://github.com/smartface/smf-js-libs/tree/master/libs/Akbank)
 
 ## The future
 
