@@ -2047,7 +2047,7 @@
 
 
     function ContextifyScript(code, options) {
-        if (SMF.Contextif)
+        if (SMF.Contextify)
             return new SMF.Contextify(code, options);
 
         this.runInContext = function runInContext(contextifiedSandbox, options) {
