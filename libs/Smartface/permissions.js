@@ -138,15 +138,15 @@
     };
 
     global.pickFromGallery = function pickFromGallery(options) {
-        applyPermissionToFunction(Device.Media.pickFromGallery, Device.Media, options);
+        applyPermissionToFunction(SMF.Multimedia.pickFromGallery, Device.Media, options);
     };
 
     global.getGalleryItems = function getGalleryItems(options) {
-        applyPermissionToFunction(Device.Media.getGalleryItems, Device.Media, options);
+        applyPermissionToFunction(SMF.Multimedia.getGalleryItems, Device.Media, options);
     };
 
     global.saveToGallery = function saveToGallery(options) {
-        applyPermissionToFunction(Device.Media.saveToGallery, Device.Media, options);
+        applyPermissionToFunction(SMF.Multimedia.saveToGallery, Device.Media, options);
     };
 
     global.addContact = function addContact(options) {
@@ -181,9 +181,9 @@
 
     if (Device.deviceOS === "Android") {
         SMF.Multimedia.startCamera.permissions = ["CAMERA"];
-        Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
-        Device.Media.getGalleryItems.permissions = ["READ_EXTERNAL_STORAGE"];
-        Device.Media.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"];
+        SMF.Multimedia.permissions = ["READ_EXTERNAL_STORAGE"];
+        SMF.Multimedia.permissions = ["READ_EXTERNAL_STORAGE"];
+        SMF.Multimedia.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"];
         SMF.Net.sendSMS.permissions = ["SEND_SMS"];
         Device.Contacts.addContact.permissions = ["WRITE_CONTACTS"];
         Device.Contacts.getAll.permissions = ["READ_CONTACTS"];
