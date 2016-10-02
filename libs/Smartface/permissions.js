@@ -138,15 +138,15 @@
     };
 
     global.pickFromGallery = function pickFromGallery(options) {
-        applyPermissionToFunction(SMF.Multimedia.pickFromGallery, Device.Media, options);
+        applyPermissionToFunction(SMF.Multimedia.pickFromGallery, SMF.Multimedia, options);
     };
 
     global.getGalleryItems = function getGalleryItems(options) {
-        applyPermissionToFunction(SMF.Multimedia.getGalleryItems, Device.Media, options);
+        applyPermissionToFunction(SMF.Multimedia.getGalleryItems, SMF.Multimedia, options);
     };
 
     global.saveToGallery = function saveToGallery(options) {
-        applyPermissionToFunction(SMF.Multimedia.saveToGallery, Device.Media, options);
+        applyPermissionToFunction(SMF.Multimedia.saveToGallery, SMF.Multimedia, options);
     };
 
     global.addContact = function addContact(options) {
