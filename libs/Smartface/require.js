@@ -287,12 +287,12 @@
                     filename = tryPackage(basePath, exts, isMain);
                 }
 
-                /* if (!filename) {
+                if (!filename) {
                      // try it with each of the extensions at "index"
                      if (exts === undefined)
                          exts = Object.keys(Module._extensions);
                      filename = tryExtensions(path.resolve(basePath, 'index'), exts, isMain);
-                 }*/
+                 }
 
                 if (filename) {
                     // Warn once if '.' resolved outside the module dir
@@ -2062,7 +2062,6 @@
         this.runInThisContext = function runInThisContext(options) {
             try {
                 var fn = eval(code);
-
             }
             catch (ex) {
                 throw ex;
