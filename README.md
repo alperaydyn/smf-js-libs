@@ -90,6 +90,12 @@ cd ~/workspace/scripts
 ```
 make sure that current directory is `~/workspace/scripts` while using **npm**
 
+## Fileviewer
+Fileviewer.js is a simple file viewer. It dynamically creates a new viewer page and shows the file according to extension. To see it in a action, just pass your file path to fileViewer.openDocument() .
+```javascript
+var fileViewer = new SMF.Utils.Fileviewer();
+fileViewer.openDocument(filePath);
+```
 
 ## Oracle
 Oracle libray readme file is located under [`libs/Oracle/README.md`](https://github.com/smartface/smf-js-libs/tree/master/libs/Oracle)
