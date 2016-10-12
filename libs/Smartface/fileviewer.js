@@ -44,7 +44,6 @@ SMF.Utils.Fileviewer = function() {
 			case 'xlsx':
 			case 'doc':
 			case 'pdf':
-				console.log("self.showOfficeFile(filePath);");
 				self.showOfficeFile(filePath);
 				break;
 			case 'tif':
@@ -53,7 +52,6 @@ SMF.Utils.Fileviewer = function() {
 			case 'jpeg':
 			case 'png':
 			case 'bmp':
-				console.log("self.showImageFile(filePath);");
 				self.showImageFile(filePath);
 				break;
 			case 'txt':
