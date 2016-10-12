@@ -26,9 +26,9 @@ To help simplify mobile app development, Mobile Cloud Service provides these bui
 
 You can call these APIs directly from your apps via straight REST calls, or with the help of Mobile Cloud Service's SDKs for the iOS and Android platforms. MCS also provides a robust API Designer tool, so you can create your own custom APIs to go after the data you need.
 
-## Which parts implemented in MCS JS libs?
-
-In this version we've implemented these functions in MCS;
+## What is Smartface MCS JavaScript library?
+Oracle MCS team releases Javascript  a few months behind of their REST API. We're continuously updating Smartface implementation of Oracle MCS JS SDK as soon as they release a new one. Also we're adding ready-to-use functions within a separate file named smartface.mcs.js.
+These functions reflects MCS SDK and makes life easier for a Javascript developer. Some of the functions are developed by Cordova and used with a reference in our side.
 
 * `Authentication`
  * `authAnonymous` Anonymous authentication (for Analytics events)
@@ -36,9 +36,17 @@ In this version we've implemented these functions in MCS;
 * `Analytics`
  * `logAnalytics` to Log an event
  * `flushAnalytics` to send your Analytics event queue to Oracle servers. All events will be logged locally until they are flushed.
+ * `logAndFlushAnalytics` to immediately logs and flushes it.
 * `Storage`
  * `getCollection` to get a named storage collection
- * `postObject` to upload a file to your storage
+ * `getStorageObjects` to get storage objects as JSON for a collection
+ * `getStorageObject` to download an object from given storage for a given id.
+ * `deleteStorageObject` to delete an object from given collection for a given id
+ * `postObject` to upload a StorageObject to your storage
+ * `uploadFile` to upload a file to your storage. (handles StorageObject itself)
+* `Notifications` (Push Notification)
+ * `registerNotification` to register the current app running on the device for receiving push notifications.
+ * `deRegisterNotification` to deregister the app from Oracle MCS Notification system
 
 ## How to use?
 
@@ -71,26 +79,5 @@ function Application_OnStart(e) {
 }
 ```
 
-## More
-You can get detailed information from following web pages:
+Please refer to our Oracle MCS guide to get detailed usage examples:   https://smartface.atlassian.net/wiki/display/GUIDE/Using+Oracle+Mobile+Cloud+Service+%28MCS%29+to+Develop+Native+iOS+and+Android+Apps+with+Smartface
 
-* Using Oracle Mobile Cloud Service
-http://docs.oracle.com/cloud/latest/mobilecs_gs/MCSUA/GUID-271BAA8A-738D-4F90-96E6-5FBD6DD11B37.htm
-
-* MCS Tutorial
-http://www.oracle.com/webfolder/technetwork/tutorials/cloud/ocms/OCMS_MBE_OBE_tutorial.html
-
-* Oracle Mobile Cloud Service JavaScript documentation
-https://docs.oracle.com/cloud/latest/mobilecs_gs/MCSSJ/index.html
-
-* Using Oracle Mobile Cloud Service / MCS User Guide:
-https://docs.oracle.com/cloud/latest/mobilecs_gs/MCSUA/GUID-7DF6C234-8DFE-4143-B138-FA4EB1EC9958.htm#MCSUA-GUID-7DF6C234-8DFE-4143-B138-FA4EB1EC9958
-
-* Hybrid Mobile Apps: Using the Mobile Cloud Service JavaScript SDK with Oracle JET:
-http://www.ateam-oracle.com/hybrid-mobile-apps-using-the-mobile-cloud-service-javascript-sdk-with-oracle-jet/
-
-* Authentication in MCS
-https://docs.oracle.com/cloud/latest/mobilecs_gs/MCSUA/GUID-DBD8AFF7-FCBE-47BA-8628-6FC50130745D.htm#MCSUA-GUID-DBD8AFF7-FCBE-47BA-8628-6FC50130745D
-
-* REST API for Oracle Mobile Cloud Service
-https://docs.oracle.com/cloud/latest/mobilecs_gs/MCSRA/Authorization.html
