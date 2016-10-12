@@ -16,12 +16,12 @@ var mcs_config = {
           "clientSecret": "YOUR_ClIENT_SECRET",
           "tokenEndpoint": "YOUR_TOKEN_ENDPOINT"
         },
-        "facebookAuth":{
+        "facebookAuth": {
           "facebookAppId": "YOUR_FACEBOOK_APP_ID",
           "backendId": "YOUR_BACKEND_ID",
           "anonymousToken": "YOUR_BACKEND_ANONYMOUS_TOKEN"
         },
-        "ssoAuth":{
+        "ssoAuth": {
           "clientId": "YOUR_CLIENT_ID",
           "clientSecret": "YOUR_ClIENT_SECRET",
           "tokenEndpoint": "YOUR_TOKEN_ENDPOINT"
