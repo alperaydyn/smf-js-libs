@@ -1,8 +1,10 @@
 /* globals HeaderBar*/
 /*
-Smartface Fileviewer lib.
-You can easily pass your file path to the openDocument() and see it in a viewer.
-Fileviewer will dynamically creates a new viewer page and will show the file according to extension.
+Fileviewer.js is a simple file viewer. It dynamically creates a new viewer page and shows the file according to extension.
+To see it in a action, just pass your file path to fileViewer.openDocument() .
+
+var fileViewer = new SMF.Utils.Fileviewer();
+fileViewer.openDocument(filePath);
 */
 
 // namespace pattern
