@@ -70,7 +70,6 @@ This library mimics **nodeJS** require implementation on Smartface. This is just
 ### restrictions
 - Does not support built-in internal node modules (such as _fs_, _http_)
 - Works only with files within the **scripts** folder. Does not fetch files on the web like _load_ and _include_ does
-- In order to require a js file, add **.js** extension to end of it (_will be solved in future_)
 - Requires an entry point, other than the project flow. Files included or loaded by other flow which does not link with entry point are not in require scope
 - initRequire only once
 - In order to work with **npm**, **node_modules** folder should be under **scripts** folder
