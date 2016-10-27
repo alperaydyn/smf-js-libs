@@ -662,7 +662,6 @@
         // Native extension for .json
         Module._extensions['.json'] = function(module, filename) {
             // var content = fs.readFileSync(filename, 'utf8');
-            throw Error("Not implemented");
             var fileN = filename.startsWith("./") ? filename.substr(2) : filename;
             var content = SMF.readCode(fileN);
             try {
