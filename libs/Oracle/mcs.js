@@ -220,8 +220,8 @@ var Platform = function() {
    */
   this.getGPSLocation = function() {
     return {
-      "latitude": null,
-      "longitude": null
+      "latitude": mcs.MobileBackendManager.platform.latitude,
+      "longitude": mcs.MobileBackendManager.platform.longitude
     };
   };
 
@@ -2327,7 +2327,6 @@ mcs.MobileBackendManager.returnMobileBackend = function(name, config) {
     "rest of the functions you need to call.");
 
   return mcs.MobileBackendManager.getMobileBackend(name);
-
 };
 
 
@@ -2350,7 +2349,6 @@ mcs.MobileBackendManager.getMobileBackend = function(name) {
 };
 
 //"use strict";
-
 /**
  * Class that represents a storage object resource that can be used to store data.
  * @constructor
@@ -2479,7 +2477,7 @@ function StorageObject(storageCollection, json) {
   /**
    * Sets a StorageObject's display name from an object.
    * @param name {Object} The object's name to be associated with the object.
-   * @example name: "JSFile中国人.txt"
+   * @example name: "JSFileä¸­å›½äºº.txt"
    * @returns The object's name in UTC-8 ASCII format.
    */
   this.setDisplayName = function(name) {
@@ -3004,7 +3002,6 @@ function Storage(backend) {
 }());
 
 //"use strict";
-
 //Notifications implemented from Oracle.mcs.cordova SDK
 (function() {
 /**
